@@ -2,13 +2,29 @@ package com.vivich.starlitapp.ui.lobby.library
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -17,6 +33,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.vivich.starlitapp.R
+import com.vivich.starlitapp.ui.shared.BookCard
+import com.vivich.starlitapp.ui.shared.SmallBookImage
+import com.vivich.starlitapp.ui.shared.StandardBookImage
 
 val randomSizedPhotos = listOf(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIBYZKyroi6mYHAEz6jPweNHPhVtAJrjJdXA&s",
@@ -29,25 +48,93 @@ val randomSizedPhotos = listOf(
 @Composable
 fun LibraryScreen() {
     Surface {
-        LazyVerticalStaggeredGrid(
-            columns = StaggeredGridCells.Adaptive(200.dp),
-            verticalItemSpacing = 4.dp,
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            content = {
-                items(randomSizedPhotos.size) { idx ->
-                    AsyncImage(
-//                        painter = rememberAsyncImagePainter(model = "https://upload.wikimedia.org/wikipedia/commons/9/94/John_Everett_Millais_-_Ophelia_-_Google_Art_Project.jpg")
-                        model = randomSizedPhotos[idx],
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            LibraryHeadline()
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+            ){
+                items(10){
+
+                    BookCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentHeight()
-                    )
+                            .padding(horizontal = 15.dp, vertical = 5.dp),
+                    ){
+                        Box(
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .fillMaxSize()
+                        ){
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.CenterStart)
+                            ){
+                                SmallBookImage()
+                                Spacer(modifier = Modifier.width(20.dp))
+                                BookDetails()
+                            }
+                            ReadButton(modifier = Modifier.align(Alignment.CenterEnd))
+                        }
+                    }
+
+//                    ElevatedCard(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(horizontal = 15.dp, vertical = 5.dp)
+//                    ){
+//
+//                    }
                 }
-            },
-            modifier = Modifier.fillMaxSize()
+            }
+        }
+
+    }
+}
+
+@Composable
+private fun LibraryHeadline() {
+    Column(
+        modifier = Modifier.padding(vertical = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text(
+            text = "Library",
+            style = MaterialTheme.typography.headlineLarge
         )
+        Text(
+            text = "Collection of books saved by you.",
+            style = MaterialTheme.typography.labelMedium
+        )
+    }
+}
+
+@Composable
+private fun ReadButton(
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = { /*TODO*/ }
+    ) {
+        Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "")
+    }
+}
+
+
+@Composable
+private fun BookDetails(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ){
+        Text(text = "Book Name")
+        Text(text = "Author Name")
+        Text(text = "Category")
     }
 }
 
