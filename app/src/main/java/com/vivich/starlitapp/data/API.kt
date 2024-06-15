@@ -8,45 +8,15 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object PostApi {
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(Constants.PostAPI.URL)
+object RetrofitInstance {
+    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    val api: ApiService by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
-
-    val instance: PostService by lazy {
-        retrofit.create(PostService::class.java)
+        retrofit.create(ApiService::class.java)
     }
 }
 
-private fun provideRetrofitInstance(
-    url: String
-): Retrofit {
-    return Retrofit.Builder()
-        .baseUrl(url)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-}
 
-
-class PostRepository(private val postService: PostService) {
-    suspend fun getPosts(page: Int, size: Int): List<Post>? {
-        val response = postService.get(page, size)
-
-        Log.d("ERRRORRRR", response.body().toString())
-
-        return if (response.isSuccessful) {
-            response.body()?.content
-        } else {
-            listOf(
-                Post(
-                    id = 0,
-                    title = "No posts",
-                    description = "No posts"
-                )
-            )
-        }
-    }
-}

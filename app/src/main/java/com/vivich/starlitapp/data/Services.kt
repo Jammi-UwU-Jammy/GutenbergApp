@@ -1,14 +1,6 @@
 package com.vivich.starlitapp.data
 
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 
 object Constants{
@@ -25,9 +17,10 @@ object Constants{
 
 // Post.kt
 data class Post(
+    val userId: Int,
     val id: Int,
     val title: String,
-    val description: String,
+    val body: String,
     // Add other fields as needed
 )
 
@@ -44,31 +37,8 @@ data class Page<T>(
 
 
 
-interface PostService {
-    @GET("/todos")
-    suspend fun get(
-        @Query("page") page: Int,
-        @Query("size") size: Int = Constants.PAGE_SIZE
-    ): Response<Page<Post>>
-
-    @GET("/todos/{id}")
-    suspend fun get(@Path("id") id: Int): Response<Post>
-
-    @POST("/posts")
-    suspend fun post(@Body post: Post): Response<Post>
-
-    @PUT("/posts/{id}")
-    suspend fun put(
-        @Path("id") id: Int,
-        @Body request: Post
-    ): Response<Post>
-
-    @PATCH("/posts/{id}")
-    suspend fun patch(
-        @Path("id") id: Int,
-        @Query("status") status: Boolean
-    ): Response<Unit>
-
-    @DELETE("/posts/{id}")
-    suspend fun delete(@Path("id") id: Int): Response<Unit>
+interface ApiService {
+    @GET("posts")
+    suspend fun getPosts(): List < Post >
 }
+
