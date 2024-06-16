@@ -19,16 +19,16 @@ class MainViewModel: ViewModel() {
     fun getPosts() {
 
         viewModelScope.launch {
-            try {
-                Log.d("ddd", apiService.toString())
+//            try {
 
                 val response = apiService.getPosts()
                 if (response.isNotEmpty()) {
-                    posts.value = response
+                        posts.value = response
                 }
-            } catch (e: Exception) {
-                Log.d("ddd", e.toString())
-            }
+//            } catch (e: Exception) {
+//                Log.d("ddd", e.toString())
+//                e.printStackTrace()
+//            }
         }
     }
 }

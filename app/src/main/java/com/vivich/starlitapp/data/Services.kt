@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.data
 
+import retrofit2.Response
 import retrofit2.http.GET
 
 
@@ -39,6 +40,6 @@ data class Page<T>(
 
 interface ApiService {
     @GET("posts")
-    suspend fun getPosts(): List < Post >
+    suspend fun getPosts(): List<Post>
 }
 
