@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.viewModels
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -16,10 +17,13 @@ class GBookViewModel : ViewModel(){
     private val repo = Repository()
     var state by mutableStateOf(ScreenState())
     var id by mutableIntStateOf(0)
+
     private val pagination = PaginationFactory(
         initialPage = state.page,
         onLoadUpdated = {
-
+            state = state.copy(
+                isLoading = it
+            )
         },
         onRequest = { nextPage ->
             repo.getPopularBooks(nextPage)
@@ -31,7 +35,7 @@ class GBookViewModel : ViewModel(){
             state = state.copy(
                 gBooks = state.gBooks + items.data,
                 page = newPage,
-                endReached = state.page == 5
+                endReached = state.page == 3
             )
         },
         onError = {
@@ -46,6 +50,7 @@ class GBookViewModel : ViewModel(){
 
     fun loadNextItems() {
         viewModelScope.launch {
+            Log.d("ddd", state.page.toString())
             pagination.loadNextPage()
         }
     }

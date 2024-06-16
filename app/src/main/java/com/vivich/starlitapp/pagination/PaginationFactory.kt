@@ -1,6 +1,4 @@
 package com.vivich.starlitapp.pagination
-
-import android.util.Log
 import retrofit2.Response
 
 class PaginationFactory<Key, Item>(
@@ -23,21 +21,13 @@ class PaginationFactory<Key, Item>(
         try{
             val response = onRequest(currentKey)
             if (response.isSuccessful){
-
-                Log.d("ddd", response.body().toString())
-
                 isMakingRequest = false
-                val items = response.body()?.let{ its ->
-                    val key = getNextKey(its)
-                    key?.let {
-                        onSuccess(its, key)
-                        onLoadUpdated(false)
-                        currentKey = key
-                    }
-                }
-//                onSuccess( items, currentKey)
-//                onLoadUpdated(false)
+                val items = response.body()!!
+                currentKey = getNextKey(items)!!
+                onSuccess(items, currentKey)
+                onLoadUpdated(false)
             }
+
         }catch (e : Exception){
             onError(e)
             onLoadUpdated(false)

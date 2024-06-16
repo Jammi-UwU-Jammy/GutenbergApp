@@ -56,7 +56,7 @@ fun LibraryScreen() {
                 modifier = Modifier.fillMaxWidth()
             ){
                 items(state.gBooks.size){
-                    if (it >= state.gBooks.size-1 && state.endReached && !state.isLoading){
+                    if (it >= state.gBooks.size-1 && !state.endReached && !state.isLoading){
                         bookViewModel.loadNextItems()
                     }
                     GBookItem(
