@@ -1,10 +1,5 @@
-package com.vivich.starlitapp.data
+package com.vivich.starlitapp.featureTesting
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

@@ -1,6 +1,5 @@
-package com.vivich.starlitapp.data
+package com.vivich.starlitapp.featureTesting
 
-import retrofit2.Response
 import retrofit2.http.GET
 
 
