@@ -1,25 +1,26 @@
 package com.vivich.starlitapp.models.Gutenberg
 
+import com.google.gson.annotations.SerializedName
+
 data class GBook(
-    val id: Int,
-    val title: String,
-    val GAuthors: List<GAuthor>,
-    val download_count: Int
+    val id: Int = -1,
+    val title: String = "",
+    val authors: List<GAuthor> = emptyList(),
+    val download_count: Int = -1
 )
 
 data class GAuthor(
-    val name: String,
-    val birth_year: Int,
-    val death_year: Int
+    val name: String = "",
+    val birth_year: Int = -1,
+    val death_year: Int = -1
 )
 
-data class MetaData(
-    val count: Int,
-    val next: String,
-    val previous: String,
-)
 
 data class GBookList(
-    val data: List<GBook>,
-    val metaData: MetaData
+    @SerializedName("results")
+    val data: List<GBook> = emptyList(),
+
+    val count: Int = 0,
+    val next: String = "",
+    val previous: String = "",
 )

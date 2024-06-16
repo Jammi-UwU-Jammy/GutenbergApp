@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.vivich.starlitapp.featureTesting.MainViewModel
 import com.vivich.starlitapp.ui.theme.StarlitAppTheme
 import androidx.compose.runtime.collectAsState
+import com.vivich.starlitapp.ui.lobby.library.LibraryScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -23,31 +24,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         setContent {
             StarlitAppTheme {
-                // A surface container using the 'background' color from the theme
-//                LoginScreen()
-//                AdSlideSection()
-                PostList(viewModel = viewModel)
+                LibraryScreen()
             }
         }
     }
 }
-@Composable
-fun PostList(viewModel: MainViewModel) {
-    val posts by viewModel.posts.collectAsState()
-    LazyColumn {
-        items(posts) {
-                post ->
-            Text(text = post.title)
-        }
-    }
-    DisposableEffect(Unit) {
-        viewModel.getPosts()
-        onDispose {}
-    }
-}
+
 
 
 @Preview(showBackground = true)
