@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.ui.shared.BookCard
 import com.vivich.starlitapp.ui.shared.SmallBookImage
@@ -107,7 +108,9 @@ private fun GBookItem(
                     .fillMaxWidth()
                     .align(Alignment.CenterStart)
             ) {
-                SmallBookImage()
+                SmallBookImage(
+                    rememberAsyncImagePainter(model = bookList[bookIndex].formats.imageUrl)
+                )
                 Spacer(modifier = Modifier.width(20.dp))
                 BookDetails(
                     name = bookList[bookIndex].title,

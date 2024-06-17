@@ -6,7 +6,13 @@ data class GBook(
     val id: Int = -1,
     val title: String = "",
     val authors: List<GAuthor> = emptyList(),
-    val download_count: Int = -1
+    val download_count: Int = -1,
+    val formats: GFormats = GFormats()
+)
+
+data class GFormats(
+    @SerializedName("image/jpeg")
+    val imageUrl: String = ""
 )
 
 data class GAuthor(
