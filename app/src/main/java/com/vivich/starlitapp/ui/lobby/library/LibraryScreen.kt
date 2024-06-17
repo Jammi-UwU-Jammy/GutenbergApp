@@ -65,18 +65,21 @@ fun LibraryScreen() {
                     )
                 }
                 item(state.isLoading){
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator(color = ProgressIndicatorDefaults.circularColor)
+                    if (state.isLoading){
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            CircularProgressIndicator(color = ProgressIndicatorDefaults.circularColor)
+                        }
                     }
                     if (!state.error.isNullOrEmpty()){
                         Toast.makeText(LocalContext.current, state.error, Toast.LENGTH_SHORT).show()
                     }
                 }
+
             }
         }
 
@@ -108,7 +111,7 @@ private fun GBookItem(
                 Spacer(modifier = Modifier.width(20.dp))
                 BookDetails(
                     name = bookList[bookIndex].title,
-                    author = bookList[bookIndex].authors[0].name
+                    author = "???"
                 )
             }
             ReadButton(modifier = Modifier.align(Alignment.CenterEnd))

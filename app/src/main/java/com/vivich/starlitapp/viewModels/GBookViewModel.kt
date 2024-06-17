@@ -35,7 +35,7 @@ class GBookViewModel : ViewModel(){
             state = state.copy(
                 gBooks = state.gBooks + items.data,
                 page = newPage,
-                endReached = state.page == 3
+                endReached = state.page == 2,
             )
         },
         onError = {
@@ -50,7 +50,6 @@ class GBookViewModel : ViewModel(){
 
     fun loadNextItems() {
         viewModelScope.launch {
-            Log.d("ddd", state.page.toString())
             pagination.loadNextPage()
         }
     }
