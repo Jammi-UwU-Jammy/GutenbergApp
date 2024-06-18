@@ -1,6 +1,5 @@
-package com.vivich.starlitapp.ui.lobby.library
+package com.vivich.starlitapp.ui.lobby.gutendex
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,16 +33,9 @@ import com.vivich.starlitapp.ui.shared.BookCard
 import com.vivich.starlitapp.ui.shared.SmallBookImage
 import com.vivich.starlitapp.viewModels.GBookViewModel
 
-val randomSizedPhotos = listOf(
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIBYZKyroi6mYHAEz6jPweNHPhVtAJrjJdXA&s",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ophelia_1894.jpg/800px-Ophelia_1894.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/9/9c/Friedrich_Wilhelm_Theodor_Heyser_-_Ophelia.jpg",
-    "https://64.media.tumblr.com/14f2f4e5ebcda52b9a8f9bd13754aae7/5c25eea1609583ad-b6/s1280x1920/d05a3843483d7a90657445de2a9d8c5b20cbaae3.jpg",
-    "https://cdn.europosters.eu/image/750/art-photo/ophelia-1910-i136637.jpg"
-)
 
 @Composable
-fun LibraryScreen() {
+fun GutendexScreen() {
 
     val bookViewModel = viewModel<GBookViewModel>()
     val state = bookViewModel.state
@@ -109,7 +101,7 @@ private fun GBookItem(
                     .align(Alignment.CenterStart)
             ) {
                 SmallBookImage(
-                    rememberAsyncImagePainter(model = bookList[bookIndex].formats.imageUrl)
+                    painter=rememberAsyncImagePainter(model = bookList[bookIndex].formats.imageUrl)
                 )
                 Spacer(modifier = Modifier.width(20.dp))
                 BookDetails(
@@ -169,6 +161,6 @@ private fun BookDetails(
 
 @Preview
 @Composable
-fun LibraryScreenPreview() {
-    LibraryScreen()
+fun GutendexScreenPreview() {
+    GutendexScreen()
 }
