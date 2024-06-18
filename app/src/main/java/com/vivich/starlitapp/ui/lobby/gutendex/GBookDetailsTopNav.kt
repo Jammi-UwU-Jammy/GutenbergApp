@@ -8,8 +8,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,6 +21,13 @@ fun GBookTopNav(
     onReturnClicked: () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
+//        colors = TopAppBarColors(
+//            containerColor= Color.hsl(.6f, 1f, 1f,.6f),
+//            scrolledContainerColor= Color.Black,
+//            navigationIconContentColor= Color.Black,
+//            titleContentColor= Color.Black,
+//            actionIconContentColor= Color.Black
+//        ),
         title = { Text(text = "Book Detail") },
         navigationIcon = {
             IconButton(onClick = { onReturnClicked() }) {
@@ -30,4 +40,11 @@ fun GBookTopNav(
             }
         }
     )
+}
+
+
+@Preview
+@Composable
+private fun TopNavPreview(modifier: Modifier = Modifier) {
+    GBookTopNav()
 }
