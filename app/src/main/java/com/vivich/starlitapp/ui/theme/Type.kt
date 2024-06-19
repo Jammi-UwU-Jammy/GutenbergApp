@@ -1,6 +1,7 @@
 package com.vivich.starlitapp.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -27,6 +28,38 @@ val Italic = FontFamily(
 )
 
 
+val contentGrayMedium = TextStyle(
+    fontFamily = Inter,
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    lineHeight = 18.sp,
+    letterSpacing = 0.5.sp,
+    color = Color.Gray
+)
+val contentGraySmall = TextStyle(
+    fontFamily = Inter,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    lineHeight = 9.sp,
+    letterSpacing = 0.4.sp,
+    color = Color.Gray
+)
+
+val bookTitleMedium = TextStyle(
+    fontFamily = Inter,
+    fontWeight = FontWeight.Medium,
+    fontSize = 18.sp,
+    lineHeight = 20.sp
+)
+
+val bookIDSmall = TextStyle(
+    fontFamily = Inter,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    lineHeight = 9.sp,
+    letterSpacing = 0.4.sp,
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
 
@@ -52,12 +85,13 @@ val Typography = Typography(
     ),
 
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = Bold,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
+
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
