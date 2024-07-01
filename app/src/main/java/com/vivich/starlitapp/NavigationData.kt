@@ -25,22 +25,22 @@ sealed class AuthScreen(val route: String){
     data object  SignUp : AuthScreen(route = "SIGN_UP")
 }
 
-sealed class BottomBarScreens(
+sealed class LobbySubScreens(
     val route: String,
     val title: String,
     val icon: ImageVector
 ){
-    data object Home : BottomBarScreens(
+    data object Home : LobbySubScreens(
         route = "HOME",
         title = "HOME",
         icon = Icons.Default.Home
     )
-    data object Settings : BottomBarScreens(
+    data object Settings : LobbySubScreens(
         route = "Settings",
         title = "Settings",
         icon = Icons.Default.Settings
     )
-    data object Profile : BottomBarScreens(
+    data object Profile : LobbySubScreens(
         route = "PROFILE",
         title = "PROFILE",
         icon = Icons.Default.AccountCircle

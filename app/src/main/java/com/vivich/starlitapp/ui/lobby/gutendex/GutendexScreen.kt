@@ -112,7 +112,7 @@ private fun GBookItem(
     bookIndex: Int = 0,
     bookList: List<GBook>
 ) {
-    val authors = if (bookList[bookIndex].authors.size > 0) bookList[bookIndex].authors[0].name else "Unknown"
+    val authors = bookList[bookIndex].getAuthorsNames()
     BookCard(
         modifier = Modifier
             .fillMaxWidth()

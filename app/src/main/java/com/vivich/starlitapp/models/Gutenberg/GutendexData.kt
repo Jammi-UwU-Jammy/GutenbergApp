@@ -8,7 +8,9 @@ data class GBook(
     val authors: List<GAuthor> = emptyList(),
     val download_count: Int = -1,
     val formats: GFormats = GFormats()
-)
+){
+    public fun getAuthorsNames() = authors.joinToString(" | "){ it.name }
+}
 
 data class GFormats(
     @SerializedName("image/jpeg")

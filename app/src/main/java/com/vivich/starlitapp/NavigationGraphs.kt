@@ -36,7 +36,7 @@ fun RootGraph(
 }
 
 
-fun NavGraphBuilder.authGraph(
+private fun NavGraphBuilder.authGraph(
     navController: NavController
 ) {
     navigation(
@@ -68,23 +68,28 @@ fun LobbyNavGraph(
 ){
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreens.Home.route
+        startDestination = LobbySubScreens.Home.route
     ){
 
-        composable(route = BottomBarScreens.Home.route){
+        composable(route = LobbySubScreens.Home.route){
             val bookViewModel = viewModel<GBookViewModel>()
             GutendexMainBody(paddingValues = paddingValues, bookViewModel=bookViewModel)
         }
-        composable(route = BottomBarScreens.Settings.route){
+        composable(route = LobbySubScreens.Settings.route){
             ScreenContent(title = "Settings") {
                 // /TODO: To implemented
             }
         }
-        composable(route = BottomBarScreens.Profile.route){
+        composable(route = LobbySubScreens.Profile.route){
             ScreenContent(title = "Profile") {
                 // /TODO: To implemented
             }
         }
+        
     }
 }
 
+@Composable
+private fun BookNavGraph(modifier: Modifier = Modifier) {
+    
+}
