@@ -86,7 +86,7 @@ fun GutendexMainBody(
                 GBookItem(
                     gBookItem = state.gBooks[it],
                     onItemClicked = {
-                        navController.navigate(BookScreens.Details.withId("${state.gBooks[it]}")){
+                        navController.navigate(BookScreens.Details.withId("$it")){
                             launchSingleTop = true
                         }
                     }

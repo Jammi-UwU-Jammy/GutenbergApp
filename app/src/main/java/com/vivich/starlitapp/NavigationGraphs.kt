@@ -68,12 +68,13 @@ fun LobbyNavGraph(
     navController: NavHostController,
     paddingValues: PaddingValues
 ){
+    val bookViewModel = viewModel<GBookViewModel>()
+
     NavHost(
         navController = navController,
         startDestination = LobbySubScreens.Home.route
     ){
         composable(route = LobbySubScreens.Home.route){
-            val bookViewModel = viewModel<GBookViewModel>()
             GutendexMainBody(
                 paddingValues = paddingValues,
                 bookViewModel=bookViewModel,
@@ -91,8 +92,11 @@ fun LobbyNavGraph(
             }
         }
         composable(route=BookScreens.Details.route){ backStackEntry ->
-            val bookId = backStackEntry.arguments?.getString("bookId")
-            GBookScreen(navHostController=navController)
+            val bookId = backStackEntry.arguments?.getString("bookId")?.toIntOrNull() ?: 0
+            GBookScreen(
+                gBook = bookViewModel.state.gBooks[bookId],
+                navHostController=navController
+            )
         }
 
     }

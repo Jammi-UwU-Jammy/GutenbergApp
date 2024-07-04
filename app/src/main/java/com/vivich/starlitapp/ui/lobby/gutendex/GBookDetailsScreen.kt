@@ -8,9 +8,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -37,11 +40,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.vivich.starlitapp.R
+import com.vivich.starlitapp.models.Gutenberg.GBook
+import com.vivich.starlitapp.ui.shared.SmallBookImage
 
 
 @Composable
 fun GBookScreen(
+    gBook: GBook,
     navHostController: NavHostController = rememberNavController()
 ){
     val scrollState = rememberScrollState()
@@ -62,7 +69,7 @@ fun GBookScreen(
                     .padding(it)
                     .fillMaxSize()
                     .paint(
-                        painter = painterResource(id = R.drawable.placeholder_book_img),
+                        painter = rememberAsyncImagePainter(model = gBook.formats.imageUrl),
                         contentScale = ContentScale.FillHeight,
                         colorFilter = ColorFilter.tint(
                             Color.hsl(0f, 1F, 0f, 0.85f),
@@ -74,8 +81,10 @@ fun GBookScreen(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
-                    BookCoverImage()
-                    BookDescription()
+                    BookCoverImage(
+                        painter = rememberAsyncImagePainter(model = gBook.formats.imageUrl)
+                    )
+                    BookDescription(gBook)
                 }
             }
 
@@ -85,7 +94,9 @@ fun GBookScreen(
 
 
 @Composable
-fun BookDescription() {
+fun BookDescription(
+    gBook: GBook
+){
     Column(
         modifier = Modifier
             .padding(0.dp, 20.dp)
@@ -95,8 +106,8 @@ fun BookDescription() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Book Name", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-            Text(text = "Author: Name", color = Color.White)
+            Text(text = gBook.title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            Text(text = gBook.getAuthorsNames(), color = Color.White)
         }
         BookOverview()
         BookDetails()
@@ -195,13 +206,13 @@ fun BookCoverImage(
 ){
     ElevatedCard(
         modifier = Modifier
-            .fillMaxWidth(.6f)
+            .width(240.dp).height(360.dp)
             .padding(10.dp, 30.dp, 0.dp, 10.dp),
         onClick = { /*TODO*/ }
     ){
         Image(
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillWidth,
             painter = painter,
             contentDescription = "",
         )
@@ -211,5 +222,5 @@ fun BookCoverImage(
 @Preview
 @Composable
 private fun GBookPreview() {
-    GBookScreen()
+    GBookScreen(GBook())
 }
