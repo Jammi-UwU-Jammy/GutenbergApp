@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.vivich.starlitapp.featureTesting.MainViewModel
-import com.vivich.starlitapp.ui.lobby.gutendex.GBookScreen
 import com.vivich.starlitapp.ui.theme.StarlitAppTheme
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexScreen
 

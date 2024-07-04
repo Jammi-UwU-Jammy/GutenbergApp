@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,18 +35,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.vivich.starlitapp.R
 
 
 @Composable
 fun GBookScreen(
-
+    navHostController: NavHostController = rememberNavController()
 ){
     val scrollState = rememberScrollState()
 
     Scaffold(
         modifier = Modifier,
-        topBar = { GBookTopNav()},
+        topBar = {
+            GBookTopNav(onReturnClicked = {
+                navHostController.popBackStack()
+            })
+        },
         bottomBar = { GBookDetailsBottomBar() },
         content = {
             Box(
@@ -183,7 +190,9 @@ fun BookOverview() {
 }
 
 @Composable
-fun BookCoverImage() {
+fun BookCoverImage(
+    painter: Painter = painterResource(id = R.drawable.placeholder_book_img)
+){
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth(.6f)
@@ -193,7 +202,7 @@ fun BookCoverImage() {
         Image(
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
-            painter = painterResource(id = R.drawable.placeholder_book_img),
+            painter = painter,
             contentDescription = "",
         )
     }

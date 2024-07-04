@@ -12,7 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.vivich.starlitapp.BookScreens.Details.withId
 import com.vivich.starlitapp.ui.auth.LoginScreen
+import com.vivich.starlitapp.ui.lobby.gutendex.GBookScreen
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexMainBody
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexScreen
 import com.vivich.starlitapp.viewModels.GBookViewModel
@@ -70,10 +72,13 @@ fun LobbyNavGraph(
         navController = navController,
         startDestination = LobbySubScreens.Home.route
     ){
-
         composable(route = LobbySubScreens.Home.route){
             val bookViewModel = viewModel<GBookViewModel>()
-            GutendexMainBody(paddingValues = paddingValues, bookViewModel=bookViewModel)
+            GutendexMainBody(
+                paddingValues = paddingValues,
+                bookViewModel=bookViewModel,
+                navController = navController,
+            )
         }
         composable(route = LobbySubScreens.Settings.route){
             ScreenContent(title = "Settings") {
@@ -85,11 +90,10 @@ fun LobbyNavGraph(
                 // /TODO: To implemented
             }
         }
-        
-    }
-}
+        composable(route=BookScreens.Details.route){ backStackEntry ->
+            val bookId = backStackEntry.arguments?.getString("bookId")
+            GBookScreen(navHostController=navController)
+        }
 
-@Composable
-private fun BookNavGraph(modifier: Modifier = Modifier) {
-    
+    }
 }

@@ -16,6 +16,7 @@ object Graph{
     const val ROOT = "root_graph"
     const val AUTH = "auth_graph"
     const val LOBBY = "lobby_graph"
+    const val BOOK = "book_graph"
     const val STARLIT = "starlit_graph"
     const val GUTENDEX = "gutendex_graph"
 }
@@ -45,6 +46,26 @@ sealed class LobbySubScreens(
         title = "PROFILE",
         icon = Icons.Default.AccountCircle
     )
+}
+
+sealed class BookScreens(
+    val route: String,
+    val title: String,
+){
+    data object Details : BookScreens(
+        route = "book_details/{bookId}",
+        title = ""
+    )
+    data object Content : BookScreens(
+        route = "book_content/{bookId}",
+        title = ""
+    )
+    fun BookScreens.withId(id: String): String {
+        return when (this) {
+            is BookScreens.Details -> "book_details/$id"
+            is BookScreens.Content -> "book_content/$id"
+        }
+    }
 }
 
 @Composable

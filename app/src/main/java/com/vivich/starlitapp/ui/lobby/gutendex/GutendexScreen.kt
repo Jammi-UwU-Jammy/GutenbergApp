@@ -1,22 +1,19 @@
 package com.vivich.starlitapp.ui.lobby.gutendex
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.twotone.Star
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,6 +31,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.vivich.starlitapp.BookScreens
+import com.vivich.starlitapp.BookScreens.Details.withId
 import com.vivich.starlitapp.LobbyNavGraph
 import com.vivich.starlitapp.models.Gutenberg.GAuthor
 import com.vivich.starlitapp.models.Gutenberg.GBook
@@ -51,6 +50,7 @@ fun GutendexScreen(
     onHomeClicked: () -> Unit = {},
     onSettingsClicked: () -> Unit = {},
     onProfileClicked: () -> Unit = {}
+
 ) {
     val currentRoute = navHostController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -66,7 +66,8 @@ fun GutendexScreen(
 @Composable
 fun GutendexMainBody(
     paddingValues: PaddingValues,
-    bookViewModel: GBookViewModel
+    bookViewModel: GBookViewModel,
+    navController: NavHostController,
 ) {
     val state = bookViewModel.state
 
@@ -83,8 +84,12 @@ fun GutendexMainBody(
                     bookViewModel.loadNextItems()
                 }
                 GBookItem(
-                    bookIndex = it,
-                    bookList = state.gBooks
+                    gBookItem = state.gBooks[it],
+                    onItemClicked = {
+                        navController.navigate(BookScreens.Details.withId("${state.gBooks[it]}")){
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
             item(state.isLoading) {
@@ -109,14 +114,17 @@ fun GutendexMainBody(
 
 @Composable
 private fun GBookItem(
-    bookIndex: Int = 0,
-    bookList: List<GBook>
+    gBookItem: GBook,
+    onItemClicked: () -> Unit = {}
 ) {
-    val authors = bookList[bookIndex].getAuthorsNames()
+    val authors = gBookItem.getAuthorsNames()
     BookCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 15.dp, vertical = 5.dp),
+            .padding(horizontal = 15.dp, vertical = 5.dp)
+            .clickable {
+                onItemClicked()
+            }
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -125,11 +133,11 @@ private fun GBookItem(
                 .padding(10.dp)
         ) {
             SmallBookImage(
-                painter=rememberAsyncImagePainter(model = bookList[bookIndex].formats.imageUrl)
+                painter=rememberAsyncImagePainter(model = gBookItem.formats.imageUrl)
             )
             BookDetails(
                 modifier = Modifier.weight(1f),
-                name = bookList[bookIndex].title,
+                name = gBookItem.title,
                 author = authors
             )
             IconButton(onClick = { /*TODO*/ }) {
@@ -195,5 +203,5 @@ private fun GutendexScreenPreview() {
         title = "Reading is a very good habit that one needs to develop in life",
         authors = listOf(GAuthor(name = "Mock author, Mock author, Mock author")))
     )
-    GBookItem(bookList = mockBooks)
+    GBookItem(gBookItem = mockBooks[0])
 }
