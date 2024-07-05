@@ -7,9 +7,12 @@ data class GBook(
     val title: String = "",
     val authors: List<GAuthor> = emptyList(),
     val download_count: Int = -1,
+    val languages: List<String> = emptyList(),
+    val copyright: Boolean = true,
     val formats: GFormats = GFormats()
 ){
     public fun getAuthorsNames() = authors.joinToString(" | "){ it.name }
+    public fun getLanguages() = languages.joinToString(" , ")
 }
 
 data class GFormats(

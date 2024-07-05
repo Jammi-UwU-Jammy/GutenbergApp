@@ -109,13 +109,20 @@ fun BookDescription(
             Text(text = gBook.title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
             Text(text = gBook.getAuthorsNames(), color = Color.White)
         }
-        BookOverview()
+        BookOverview(
+            bookID = gBook.id,
+            language = gBook.getLanguages(),
+            downloads = gBook.download_count,
+            copyright =if (gBook.copyright) "Yes" else "No"
+        )
         BookDetails()
     }
 }
 
 @Composable
-fun BookDetails() {
+fun BookDetails(
+
+) {
     Row(
         Modifier
             .fillMaxWidth(0.8f)
@@ -163,7 +170,12 @@ fun BookDetails() {
 }
 
 @Composable
-fun BookOverview() {
+fun BookOverview(
+    bookID: Int = -1,
+    language: String = "None",
+    downloads: Int = -1,
+    copyright: String = "None"
+) {
     Row(
         Modifier
             .padding(10.dp, 20.dp)
@@ -177,7 +189,7 @@ fun BookOverview() {
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(text = "Book ID", color = Color.White)
-            Text(text = "123", color = Color.White)
+            Text(text = bookID.toString(), color = Color.White)
         }
         Column(
             modifier = Modifier
@@ -186,7 +198,7 @@ fun BookOverview() {
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(text = "Language", color = Color.White)
-            Text(text = "En", color = Color.White)
+            Text(text = language, color = Color.White)
         }
         Column(
             modifier = Modifier
@@ -194,8 +206,17 @@ fun BookOverview() {
                 .padding(0.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Download", color = Color.White)
-            Text(text = "2312", color = Color.White)
+            Text(text = "Downloads", color = Color.White)
+            Text(text = downloads.toString(), color = Color.White)
+        }
+        Column(
+            modifier = Modifier
+                .weight(1.0f)
+                .padding(0.dp, 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Text(text = "Copyright", color = Color.White)
+            Text(text = copyright, color = Color.White)
         }
     }
 }
