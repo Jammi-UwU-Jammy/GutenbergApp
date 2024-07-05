@@ -12,9 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.vivich.starlitapp.BookScreens
+import com.vivich.starlitapp.BookScreens.Details.withId
 
 @Composable
 fun GBookDetailsBottomBar(
+    bookId: Int,
     navHostController: NavHostController = rememberNavController()
 ) {
     NavigationBar(
@@ -26,7 +29,9 @@ fun GBookDetailsBottomBar(
             modifier = Modifier
                 .padding(20.dp, 10.dp)
                 .background(Color.Black),
-            onClick = { },
+            onClick = {
+                navHostController.navigate(BookScreens.Content.withId("$bookId"))
+            },
             icon = { Text(text = "Start Reading", color = Color.White) }
         )
     }

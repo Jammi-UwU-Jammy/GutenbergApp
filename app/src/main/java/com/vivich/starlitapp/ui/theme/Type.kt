@@ -39,7 +39,7 @@ val contentGrayMedium = TextStyle(
 val contentGraySmall = TextStyle(
     fontFamily = Inter,
     fontWeight = FontWeight.Normal,
-    fontSize = 14.sp,
+    fontSize = 13.sp,
     lineHeight = 9.sp,
     letterSpacing = 0.4.sp,
     color = Color.Gray
@@ -84,8 +84,16 @@ val Typography = Typography(
         fontSize = 15.sp
     ),
 
+    bodySmall = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.4.sp
+    ),
+
     bodyLarge = TextStyle(
-        fontFamily = Bold,
+        fontFamily = Inter,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,

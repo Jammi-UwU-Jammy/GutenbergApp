@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +45,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.vivich.starlitapp.R
 import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.ui.shared.SmallBookImage
+import com.vivich.starlitapp.ui.theme.Inter
+import com.vivich.starlitapp.ui.theme.contentGraySmall
 
 
 @Composable
@@ -60,7 +63,12 @@ fun GBookScreen(
                 navHostController.popBackStack()
             })
         },
-        bottomBar = { GBookDetailsBottomBar() },
+        bottomBar = {
+            GBookDetailsBottomBar(
+                bookId = gBook.id,
+                navHostController = navHostController
+            )
+        },
         content = {
             Box(
                 modifier = Modifier
@@ -115,14 +123,14 @@ fun BookDescription(
             downloads = gBook.download_count,
             copyright =if (gBook.copyright) "Yes" else "No"
         )
-        BookDetails()
+        BookDetails(gBook)
     }
 }
 
 @Composable
 fun BookDetails(
-
-) {
+    gBook: GBook
+){
     Row(
         Modifier
             .fillMaxWidth(0.8f)
@@ -164,7 +172,8 @@ fun BookDetails(
     ){
         Text(
             modifier = Modifier.padding(20.dp),
-            text = stringResource(id = R.string.Book_text_placeholder)
+            text = "This \"${gBook.title}\" distribution belongs to Project Gutenberg (https://www.gutenberg.org/).\n" +
+                    "You can find more info on the website using the book ID."
         )
     }
 }
@@ -188,7 +197,7 @@ fun BookOverview(
                 .padding(0.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Book ID", color = Color.White)
+            Text(text = "Book ID", color = Color.White, style = contentGraySmall)
             Text(text = bookID.toString(), color = Color.White)
         }
         Column(
@@ -197,7 +206,7 @@ fun BookOverview(
                 .padding(0.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Language", color = Color.White)
+            Text(text = "Language", color = Color.White, style = contentGraySmall)
             Text(text = language, color = Color.White)
         }
         Column(
@@ -206,7 +215,7 @@ fun BookOverview(
                 .padding(0.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Downloads", color = Color.White)
+            Text(text = "Downloads", color = Color.White, style = contentGraySmall)
             Text(text = downloads.toString(), color = Color.White)
         }
         Column(
@@ -215,7 +224,7 @@ fun BookOverview(
                 .padding(0.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text(text = "Copyright", color = Color.White)
+            Text(text = "Copyright", color = Color.White, style = contentGraySmall)
             Text(text = copyright, color = Color.White)
         }
     }
@@ -227,7 +236,8 @@ fun BookCoverImage(
 ){
     ElevatedCard(
         modifier = Modifier
-            .width(240.dp).height(360.dp)
+            .width(240.dp)
+            .height(360.dp)
             .padding(10.dp, 30.dp, 0.dp, 10.dp),
         onClick = { /*TODO*/ }
     ){
