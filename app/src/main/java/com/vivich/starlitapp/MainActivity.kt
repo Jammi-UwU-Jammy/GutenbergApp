@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.vivich.starlitapp.featureTesting.MainViewModel
@@ -21,11 +23,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             StarlitAppTheme {
-//                GutendexScreen()
-//                GBookScreen()
-
                 val navController = rememberNavController()
-                RootGraph(navController=navController)
+                RootGraph(context = this, navController=navController)
             }
         }
     }

@@ -9,6 +9,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableFloatState
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -16,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -23,13 +26,25 @@ import com.vivich.starlitapp.R
 import com.vivich.starlitapp.ui.theme.contentGrayMedium
 
 @Composable
-fun GBookContentBottomBar(modifier: Modifier = Modifier) {
+fun GBookContentBottomBar(
+    modifier: Modifier = Modifier,
+    lightness: MutableFloatState = remember { mutableFloatStateOf(1f) },
+    fontSize: MutableIntState = remember { mutableIntStateOf(16) }
+) {
     var selectedItem by remember { mutableIntStateOf(-1) }
 
     Column {
         Spacer(modifier = Modifier.weight(1f))
         if (selectedItem != -1) {
-            ExpandableTab(selectedItem)
+            when (selectedItem){
+                0 -> {
+                    Brightness(lightness)
+                }
+                1 -> {
+                    FontSettings(fontSize=fontSize)
+                }
+                2 -> {Text(text = "Settings for Settings", fontSize = 18.sp)}
+            }
         }
 
         BottomAppBar {
@@ -54,50 +69,41 @@ fun GBookContentBottomBar(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-private fun ExpandableTab(selectedId: Int) {
-    when (selectedId){
-        0 -> {
-            Brightness()
-        }
-        1 -> {
-            FontSettings()
-        }
-        2 -> {Text(text = "Settings for Settings", fontSize = 18.sp)}
-    }
-}
 
 @Composable
-private fun Brightness(modifier: Modifier = Modifier) {
-    var lightness by remember { mutableFloatStateOf(0.5f) }
+private fun Brightness(
+    lightness: MutableFloatState
+) {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = "Brightness", fontSize = 18.sp)
+        Text(text = "Brightness", fontSize = 18.sp, color = Color.hsl(0f, 0f, 1-lightness.floatValue, 1f))
         Slider(
             modifier = Modifier.fillMaxWidth(.7f),
-            value =lightness,
-            onValueChange = {lightness = it},
-            valueRange = 0f..1f,
+            value =lightness.floatValue,
+            onValueChange = {lightness.floatValue = it},
+            valueRange = 0.3f..1f,
         )
     }
 }
 
 @Composable
-fun FontSettings(modifier: Modifier = Modifier) {
-    var fontSize by remember { mutableIntStateOf(12) }
+fun FontSettings(
+    modifier: Modifier = Modifier,
+    fontSize: MutableIntState
+) {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = "Font settings", fontSize = fontSize.sp)
+        Text(text = "Font settings", fontSize = fontSize.intValue.sp)
         Slider(
             modifier = Modifier.fillMaxWidth(.7f),
-            value =fontSize.toFloat(),
-            onValueChange = {fontSize = it.toInt()},
+            value =fontSize.intValue.toFloat(),
+            onValueChange = {fontSize.intValue = it.toInt()},
             valueRange = 14f..36f,
         )
     }

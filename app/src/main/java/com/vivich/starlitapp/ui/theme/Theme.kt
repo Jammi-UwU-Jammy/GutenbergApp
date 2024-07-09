@@ -19,6 +19,7 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = BlueGray,
     secondary = Black,
+    background = Color.Black
 //    tertiary = Pink80
 )
 
@@ -38,6 +39,7 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
     */
 )
+
 
 @Composable
 fun StarlitAppTheme(
@@ -70,3 +72,6 @@ fun StarlitAppTheme(
         content = content
     )
 }
+
+
+/*                  BOOK CONTENT                  */

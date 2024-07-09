@@ -1,5 +1,6 @@
 package com.vivich.starlitapp
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import com.vivich.starlitapp.viewModels.GBookViewModel
 
 @Composable
 fun RootGraph(
+    context: Context,
     navController: NavHostController
 ){
     NavHost(
