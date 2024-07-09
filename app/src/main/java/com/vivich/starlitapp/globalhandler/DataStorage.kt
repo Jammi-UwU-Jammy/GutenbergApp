@@ -1,4 +1,4 @@
-package com.vivich.starlitapp.storage
+package com.vivich.starlitapp.globalhandler
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit

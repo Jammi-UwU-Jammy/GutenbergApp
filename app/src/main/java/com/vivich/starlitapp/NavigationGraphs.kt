@@ -105,7 +105,7 @@ fun LobbyNavGraph(
         }
         composable(route=BookScreens.Content.route){ backStackEntry ->
             val bookId = backStackEntry.arguments?.getString("bookId")?.toIntOrNull() ?: 0
-            BookContentScreen()
+            BookContentScreen(viewModel = bookViewModel)
         }
 
     }

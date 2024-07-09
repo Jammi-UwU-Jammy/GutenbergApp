@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.vivich.starlitapp.viewModels.GBookViewModel
 
 @Composable
 fun BookContentScreen(
     modifier: Modifier = Modifier,
+    viewModel: GBookViewModel
 ){
     val lightness = remember { mutableFloatStateOf(1f) }
     val fontSize = remember {mutableIntStateOf(14) }
@@ -26,7 +28,7 @@ fun BookContentScreen(
     Scaffold(
         containerColor = Color.hsl(0f, 0f, lightness.floatValue, 1f),
         topBar = {},
-        bottomBar = { GBookContentBottomBar(lightness = lightness, fontSize = fontSize) },
+        bottomBar = { GBookContentBottomBar(fontSize = fontSize) },
     ){ paddings ->
         Column(
 //            modifier = Modifier
@@ -41,5 +43,5 @@ fun BookContentScreen(
 @Preview
 @Composable
 private fun ScreenPreview(modifier: Modifier = Modifier) {
-    BookContentScreen()
+    BookContentScreen(viewModel = GBookViewModel())
 }

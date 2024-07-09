@@ -71,6 +71,13 @@ class GBookViewModel : ViewModel(){
             }
         }
     }
+    fun updateBrightness( brightness: Float ){
+        viewModelScope.launch {
+            state = state.copy(
+                brightness = brightness
+            )
+        }
+    }
 }
 
 
@@ -80,5 +87,6 @@ data class ScreenState(
     val bookDetails: GBook = GBook(),
     val endReached: Boolean = false,
     val error: String? = null,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val brightness: Float = 1f
 )

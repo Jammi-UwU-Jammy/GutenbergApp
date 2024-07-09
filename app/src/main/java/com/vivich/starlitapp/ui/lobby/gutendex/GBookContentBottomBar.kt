@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.ui.lobby.gutendex
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,7 +10,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -18,27 +18,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.vivich.starlitapp.R
 import com.vivich.starlitapp.ui.theme.contentGrayMedium
+import com.vivich.starlitapp.viewModels.GBookViewModel
 
 @Composable
 fun GBookContentBottomBar(
     modifier: Modifier = Modifier,
-    lightness: MutableFloatState = remember { mutableFloatStateOf(1f) },
     fontSize: MutableIntState = remember { mutableIntStateOf(16) }
 ) {
     var selectedItem by remember { mutableIntStateOf(-1) }
+
 
     Column {
         Spacer(modifier = Modifier.weight(1f))
         if (selectedItem != -1) {
             when (selectedItem){
                 0 -> {
-                    Brightness(lightness)
+                    Brightness()
                 }
                 1 -> {
                     FontSettings(fontSize=fontSize)
@@ -71,19 +72,23 @@ fun GBookContentBottomBar(
 
 
 @Composable
-private fun Brightness(
-    lightness: MutableFloatState
-) {
+private fun Brightness(){
+    var sliderValue by remember { mutableFloatStateOf(.5f) }
+    val context = LocalContext.current
+
 
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = "Brightness", fontSize = 18.sp, color = Color.hsl(0f, 0f, 1-lightness.floatValue, 1f))
+//        Text(text = "Brightness", fontSize = 18.sp, color = Color.hsl(0f, 0f, 1-lightness.floatValue, 1f))
         Slider(
             modifier = Modifier.fillMaxWidth(.7f),
-            value =lightness.floatValue,
-            onValueChange = {lightness.floatValue = it},
+            value = sliderValue,
+            onValueChange = {
+                sliderValue = it
+//                setBrightness(context, it)
+            },
             valueRange = 0.3f..1f,
         )
     }
