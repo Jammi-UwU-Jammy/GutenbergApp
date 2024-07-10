@@ -16,8 +16,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.vivich.starlitapp.featureTesting.MainViewModel
-import com.vivich.starlitapp.globalhandler.UpdateBrightness
+
 import com.vivich.starlitapp.globalhandler.getBrightness
 import com.vivich.starlitapp.ui.theme.StarlitAppTheme
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexScreen

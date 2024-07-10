@@ -34,7 +34,7 @@ fun GBookContentBottomBar(
     var brightness = remember { mutableFloatStateOf(.5f)}
 
     Column {
-        Spacer(modifier = Modifier.weight(1f))
+//        Spacer(modifier = Modifier.weight(1f))
         if (selectedItem != -1) {
             when (selectedItem){
                 0 -> {

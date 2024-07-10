@@ -6,6 +6,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.sp
 import com.vivich.starlitapp.R
 
@@ -58,6 +59,14 @@ val bookIDSmall = TextStyle(
     fontSize = 14.sp,
     lineHeight = 9.sp,
     letterSpacing = 0.4.sp,
+)
+
+fun bookContent(size: Int) = TextStyle(
+    fontFamily = Inter,
+    fontWeight = FontWeight.Normal,
+    fontSize = size.sp,
+    lineHeight = (size*1.5).sp,
+    letterSpacing = 0.5.sp,
 )
 
 // Set of Material typography styles to start with

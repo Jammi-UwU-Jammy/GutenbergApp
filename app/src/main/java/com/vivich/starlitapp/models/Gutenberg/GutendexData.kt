@@ -12,7 +12,7 @@ data class GBook(
     val formats: GFormats = GFormats()
 ){
     public fun getAuthorsNames() = authors.joinToString(" | "){ it.name }
-    public fun getLanguages() = languages.joinToString(" , ")
+    public fun getLanguages() = languages.joinToString(", ")
 }
 
 data class GFormats(
