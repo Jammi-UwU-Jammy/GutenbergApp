@@ -84,6 +84,12 @@ class GBookViewModel : ViewModel(){
         },
     )
 
+    fun updateCurrentOpenedBook(bookIndex: Int){
+        state = state.copy(
+            currentBookOpened = state.gBooks[bookIndex]
+        )
+    }
+
     fun getHtmlByUrl(url: String){
         viewModelScope.launch {
             try {
@@ -111,9 +117,10 @@ class GBookViewModel : ViewModel(){
 data class ScreenState(
     val gBooks: List<GBook> = emptyList(),
     val page:Int = 1,
-    val bookDetails: GBook = GBook(),
     val endReached: Boolean = false,
     val error: String? = null,
     val isLoading: Boolean = false,
+
+    val currentBookOpened: GBook = GBook(title = "Non-available"),
     val currentParsedBook: String = ""
 )

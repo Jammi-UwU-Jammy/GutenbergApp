@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.ui.lobby.bookDetails
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,6 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.vivich.starlitapp.BookScreens
+import com.vivich.starlitapp.BookScreens.Details.withId
 import com.vivich.starlitapp.R
 import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.ui.theme.contentGraySmall

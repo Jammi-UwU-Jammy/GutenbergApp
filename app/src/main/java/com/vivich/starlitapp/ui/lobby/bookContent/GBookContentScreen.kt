@@ -32,14 +32,15 @@ import com.vivich.starlitapp.viewModels.GBookViewModel
 fun BookContentScreen(
     modifier: Modifier = Modifier,
     viewModel: GBookViewModel,
-    gBook: GBook = GBook()
+    gBook: GBook = GBook(),
+    onReturn: () -> Unit = {}
 ){
     val fontSize = remember {mutableIntStateOf(14) }
     val scrollState = rememberScrollState()
 
 
     Scaffold(
-        topBar = { BookContentTop()},
+        topBar = { BookContentTop(book =  gBook, onReturn = onReturn)},
         bottomBar = { GBookContentBottomBar(fontSize = fontSize) },
     ){ paddings->
         Column(

@@ -22,11 +22,14 @@ import com.vivich.starlitapp.ui.theme.contentGraySmall
 @Composable
 fun BookContentTop(
     modifier: Modifier = Modifier,
-    book: GBook = GBook(title = "Test")
+    book: GBook = GBook(title = "Test"),
+    onReturn : () -> Unit =  {}
 ){
     TopAppBar(
         navigationIcon = {
-            Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription ="")
+            IconButton(onClick = onReturn) {
+                Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription ="")
+            }
         },
         title = {
             Text(
@@ -39,7 +42,7 @@ fun BookContentTop(
             )
         },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {  }) {
                 Icon(imageVector = Icons.Default.Share, contentDescription ="")
             }
         }
