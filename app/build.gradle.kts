@@ -62,6 +62,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("io.insert-koin:koin-core:3.3.3")
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("it.skrape:skrapeit:1.2.2")
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")

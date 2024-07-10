@@ -1,6 +1,5 @@
 package com.vivich.starlitapp.viewModels
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +10,9 @@ import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.models.Gutenberg.Repository
 import com.vivich.starlitapp.pagination.PaginationFactory
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class GBookViewModel : ViewModel(){
@@ -54,15 +56,22 @@ class GBookViewModel : ViewModel(){
         }
     }
 
-    fun getDetailsById(){
+    fun getBookContentPlain(url: String){
         viewModelScope.launch {
             try {
-                val response = repo.getBookDetailsById(id=id)
-                if (response.isSuccessful){
-                    state = state.copy(
-                        bookDetails = response.body()!!
-                    )
-                }
+                val call = repo.getBookPlainTextByUrl(url)
+                call.enqueue(object : Callback<String>{
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        if (response.isSuccessful && response.body() != null) {
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
 
             }catch (e: Exception){
                 state = state.copy(
