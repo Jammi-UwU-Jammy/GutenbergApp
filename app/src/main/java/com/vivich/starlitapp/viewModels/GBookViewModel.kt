@@ -1,6 +1,7 @@
 package com.vivich.starlitapp.viewModels
 
 import android.util.Log
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -9,6 +10,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.models.Gutenberg.Repository
+import com.vivich.starlitapp.models.ParsedData.BookHrefLinks
+import com.vivich.starlitapp.models.ParsedData.ChapterContent
+import com.vivich.starlitapp.models.ParsedData.ChapterData
+import com.vivich.starlitapp.models.ParsedData.HrefTable
 import com.vivich.starlitapp.models.ParsedData.extractHrefTable
 import com.vivich.starlitapp.pagination.PaginationFactory
 import kotlinx.coroutines.Dispatchers
@@ -86,11 +91,23 @@ class GBookViewModel : ViewModel(){
 
     fun updateCurrentOpenedBook(bookIndex: Int){
         state = state.copy(
-            currentBookOpened = state.gBooks[bookIndex]
+            currentBookOpened = state.gBooks[bookIndex],
+            myComposable = {
+                HrefTable(
+                    hrefLinks = BookHrefLinks(
+                        htmlUrl = state.currentBookOpened.formats.html,
+                        hrefList = extractHrefTable(state.currentParsedBook)
+                    )
+                )
+
+                ChapterContent(
+                    chapterData = ChapterData(title = state.currentBookOpened.title)
+                )
+            }
         )
     }
 
-    fun getHtmlByUrl(url: String){
+    fun fetchContentByUrl(url: String){
         viewModelScope.launch {
             try {
                 Log.d("ddd", "PROC: HTML retrieve")
@@ -98,7 +115,7 @@ class GBookViewModel : ViewModel(){
                     repo.getBookContentByUrl(url)
                 }
                 if (content != null) {
-                    Log.d("ddd", "SUCCESS: \nCharacters:${content.length}")
+                    Log.d("ddd", "SUCCESS: \n${extractHrefTable(content)}")
                     state = state.copy(
                         currentParsedBook = content
                     )
@@ -122,5 +139,6 @@ data class ScreenState(
     val isLoading: Boolean = false,
 
     val currentBookOpened: GBook = GBook(title = "Non-available"),
-    val currentParsedBook: String = ""
+    val currentParsedBook: String = "",
+    val myComposable: @Composable () -> Unit = {}
 )

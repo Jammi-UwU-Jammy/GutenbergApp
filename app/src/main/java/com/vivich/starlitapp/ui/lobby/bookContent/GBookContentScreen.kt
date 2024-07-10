@@ -49,7 +49,7 @@ fun BookContentScreen(
                 .padding(15.dp)
                 .verticalScroll(scrollState)
         ){
-            BookText(fontSize = fontSize.intValue, text = viewModel.state.currentParsedBook)
+            viewModel.state.myComposable()
         }
     }
 }
