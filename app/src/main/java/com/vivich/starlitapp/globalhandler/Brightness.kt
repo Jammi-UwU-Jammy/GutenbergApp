@@ -25,7 +25,7 @@ fun setBrightness(context: Context, brightness:Float) {
     val layoutParams: WindowManager.LayoutParams = activity.window.attributes
     layoutParams.screenBrightness = brightness
     activity.window.attributes = layoutParams
-    Log.d("ddd", activity.window.attributes.screenBrightness.toString())
+//    Log.d("ddd", activity.window.attributes.screenBrightness.toString())
 }
 
 fun getBrightness(context: Context) {

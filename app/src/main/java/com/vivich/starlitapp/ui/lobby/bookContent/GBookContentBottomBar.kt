@@ -1,6 +1,5 @@
-package com.vivich.starlitapp.ui.lobby.gutendex
+package com.vivich.starlitapp.ui.lobby.bookContent
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.vivich.starlitapp.R
-import com.vivich.starlitapp.globalhandler.UpdateBrightness
 import com.vivich.starlitapp.globalhandler.setBrightness
 import com.vivich.starlitapp.ui.theme.contentGrayMedium
 

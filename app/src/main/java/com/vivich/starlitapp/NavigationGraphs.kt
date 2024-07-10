@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,10 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.vivich.starlitapp.BookScreens.Details.withId
 import com.vivich.starlitapp.ui.auth.LoginScreen
-import com.vivich.starlitapp.ui.lobby.gutendex.BookContentScreen
-import com.vivich.starlitapp.ui.lobby.gutendex.GBookScreen
+import com.vivich.starlitapp.ui.lobby.bookContent.BookContentScreen
+import com.vivich.starlitapp.ui.lobby.bookDetails.GBookScreen
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexMainBody
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexScreen
 import com.vivich.starlitapp.viewModels.GBookViewModel

@@ -1,4 +1,4 @@
-package com.vivich.starlitapp.ui.lobby.gutendex
+package com.vivich.starlitapp.ui.lobby.bookContent
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
