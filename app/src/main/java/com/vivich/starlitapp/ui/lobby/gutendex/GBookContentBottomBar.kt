@@ -23,8 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.vivich.starlitapp.R
+import com.vivich.starlitapp.globalhandler.UpdateBrightness
+import com.vivich.starlitapp.globalhandler.setBrightness
 import com.vivich.starlitapp.ui.theme.contentGrayMedium
-import com.vivich.starlitapp.viewModels.GBookViewModel
 
 @Composable
 fun GBookContentBottomBar(
@@ -32,7 +33,7 @@ fun GBookContentBottomBar(
     fontSize: MutableIntState = remember { mutableIntStateOf(16) }
 ) {
     var selectedItem by remember { mutableIntStateOf(-1) }
-
+    var brightness = remember { mutableFloatStateOf(.5f)}
 
     Column {
         Spacer(modifier = Modifier.weight(1f))
@@ -72,24 +73,24 @@ fun GBookContentBottomBar(
 
 
 @Composable
-private fun Brightness(){
+private fun Brightness(
+){
     var sliderValue by remember { mutableFloatStateOf(.5f) }
     val context = LocalContext.current
-
 
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-//        Text(text = "Brightness", fontSize = 18.sp, color = Color.hsl(0f, 0f, 1-lightness.floatValue, 1f))
+        Text(text = "Brightness", fontSize = 18.sp)
         Slider(
             modifier = Modifier.fillMaxWidth(.7f),
             value = sliderValue,
             onValueChange = {
                 sliderValue = it
-//                setBrightness(context, it)
+                setBrightness(context, sliderValue)
             },
-            valueRange = 0.3f..1f,
+            valueRange = 0f..1f,
         )
     }
 }

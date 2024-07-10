@@ -16,7 +16,7 @@ suspend fun saveBrightness(context: Context, brightness: Float) {
     }
 }
 
-fun getBrightness(context: Context): Flow<Float> {
+private fun getTBrightness(context: Context): Flow<Float> {
     return context.dataStore.data.map { preferences ->
         preferences[BRIGHTNESS_KEY] ?: 0.5f
     }

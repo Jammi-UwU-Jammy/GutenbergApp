@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -43,6 +44,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.vivich.starlitapp.R
+import com.vivich.starlitapp.globalhandler.UpdateBrightness
 import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.ui.shared.SmallBookImage
 import com.vivich.starlitapp.ui.theme.Inter
