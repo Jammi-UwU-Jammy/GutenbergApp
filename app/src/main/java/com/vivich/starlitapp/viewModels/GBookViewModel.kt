@@ -9,18 +9,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.models.Gutenberg.Repository
+import com.vivich.starlitapp.models.ParsedData.extractHrefTable
 import com.vivich.starlitapp.pagination.PaginationFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class GBookViewModel : ViewModel(){
     private val repo = Repository()
+//    private val
+
     var state by mutableStateOf(ScreenState())
     var id by mutableIntStateOf(0)
 
@@ -60,29 +59,53 @@ class GBookViewModel : ViewModel(){
         }
     }
 
-    fun getBookContentHtml(url: String){
+    private val contentPagination = PaginationFactory(
+        initialPage = state.page,
+        onLoadUpdated = {
+            state = state.copy(
+                isLoading = it
+            )
+        },
+        onRequest = { nextPage ->
+            repo.getPopularBooks(nextPage)
+        },
+        getNextKey = {
+            state.page + 1
+        },
+        onSuccess = {items, newPage ->
+            state = state.copy(
+                gBooks = state.gBooks + items.data,
+                page = newPage,
+                endReached = state.page == 2,
+            )
+        },
+        onError = {
+            state = state.copy(error = it?.localizedMessage)
+        },
+    )
+
+    fun getHtmlByUrl(url: String){
         viewModelScope.launch {
             try {
-                Log.d("ddd", "PROC: Book retrieve")
+                Log.d("ddd", "PROC: HTML retrieve")
                 val content = withContext(Dispatchers.IO) {
                     repo.getBookContentByUrl(url)
                 }
                 if (content != null) {
-                    Log.d("ddd", "SUCCESS: $content")
+                    Log.d("ddd", "SUCCESS: \nCharacters:${content.length}")
+                    state = state.copy(
+                        currentParsedBook = content
+                    )
                 }
 
             }catch (e: Exception){
-                Log.d("ddd", "ERROR: Book retrieve - $e")
+                Log.d("ddd", "ERROR: HTML retrieve - $e")
                 state = state.copy(
                     error = e.message
                 )
             }
         }
     }
-}
-
-fun parseHtmlToText(htmlContent: String): String {
-    return Jsoup.parse(htmlContent).text()
 }
 
 data class ScreenState(

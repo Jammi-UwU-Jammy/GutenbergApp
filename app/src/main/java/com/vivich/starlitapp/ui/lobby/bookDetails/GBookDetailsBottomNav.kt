@@ -32,7 +32,7 @@ fun GBookDetailsBottomBar(
                 .background(Color.Black),
             onClick = {
                 buttonOnClick()
-//                navHostController.navigate(BookScreens.Content.withId("$bookId"))
+                navHostController.navigate(BookScreens.Content.withId("$bookId"))
             },
             icon = { Text(text = "Start Reading", color = Color.White) }
         )

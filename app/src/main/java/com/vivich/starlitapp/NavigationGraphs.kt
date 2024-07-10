@@ -101,7 +101,7 @@ fun LobbyNavGraph(
                 gBook = bookViewModel.state.gBooks[bookId],
                 navHostController=navController,
                 loadBookAction = {
-                    bookViewModel.getBookContentHtml(bookViewModel.state.gBooks[bookId].formats.html)
+                    bookViewModel.getHtmlByUrl(bookViewModel.state.gBooks[bookId].formats.plainText)
                 }
             )
         }

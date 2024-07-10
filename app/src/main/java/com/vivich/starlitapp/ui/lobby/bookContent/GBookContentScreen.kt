@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vivich.starlitapp.R
+import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.ui.theme.bookContent
 import com.vivich.starlitapp.viewModels.GBookViewModel
 
@@ -31,6 +32,7 @@ import com.vivich.starlitapp.viewModels.GBookViewModel
 fun BookContentScreen(
     modifier: Modifier = Modifier,
     viewModel: GBookViewModel,
+    gBook: GBook = GBook()
 ){
     val fontSize = remember {mutableIntStateOf(14) }
     val scrollState = rememberScrollState()
@@ -55,15 +57,9 @@ fun BookContentScreen(
 private fun BookText(
     modifier: Modifier = Modifier,
     fontSize: Int,
-    text: String? = null
+    text: String = stringResource(id = R.string.Book_text_placeholder)
 ) {
-    if (text == null){
-        Text(text = stringResource(id = R.string.Book_text_placeholder),  style = bookContent(fontSize))
-        Text(text = stringResource(id = R.string.Book_text_placeholder), style = bookContent(fontSize))
-    }
-    else{
-        Text(text = text)
-    }
+    Text(text = text,  style = bookContent(fontSize))
 }
 
 
