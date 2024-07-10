@@ -96,14 +96,22 @@ fun LobbyNavGraph(
 
         composable(route=BookScreens.Details.route){ backStackEntry ->
             val bookId = backStackEntry.arguments?.getString("bookId")?.toIntOrNull() ?: 0
+
             GBookScreen(
                 gBook = bookViewModel.state.gBooks[bookId],
-                navHostController=navController
+                navHostController=navController,
+                loadBookAction = {
+                    bookViewModel.getBookContentHtml(bookViewModel.state.gBooks[bookId].formats.html)
+                }
             )
         }
         composable(route=BookScreens.Content.route){ backStackEntry ->
             val bookId = backStackEntry.arguments?.getString("bookId")?.toIntOrNull() ?: 0
-            BookContentScreen(viewModel = bookViewModel)
+//            bookViewModel.getBookContentHtml(bookViewModel.state.gBooks[bookId].formats.html)
+
+            BookContentScreen(
+                viewModel = bookViewModel,
+            )
         }
 
     }

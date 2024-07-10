@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -29,10 +30,11 @@ import com.vivich.starlitapp.viewModels.GBookViewModel
 @Composable
 fun BookContentScreen(
     modifier: Modifier = Modifier,
-    viewModel: GBookViewModel
+    viewModel: GBookViewModel,
 ){
     val fontSize = remember {mutableIntStateOf(14) }
     val scrollState = rememberScrollState()
+
 
     Scaffold(
         topBar = { BookContentTop()},
@@ -44,7 +46,7 @@ fun BookContentScreen(
                 .padding(15.dp)
                 .verticalScroll(scrollState)
         ){
-            BookText(fontSize = fontSize.intValue)
+            BookText(fontSize = fontSize.intValue, text = viewModel.state.currentParsedBook)
         }
     }
 }
@@ -52,10 +54,16 @@ fun BookContentScreen(
 @Composable
 private fun BookText(
     modifier: Modifier = Modifier,
-    fontSize: Int
+    fontSize: Int,
+    text: String? = null
 ) {
-    Text(text = stringResource(id = R.string.Book_text_placeholder),  style = bookContent(fontSize))
-    Text(text = stringResource(id = R.string.Book_text_placeholder), style = bookContent(fontSize))
+    if (text == null){
+        Text(text = stringResource(id = R.string.Book_text_placeholder),  style = bookContent(fontSize))
+        Text(text = stringResource(id = R.string.Book_text_placeholder), style = bookContent(fontSize))
+    }
+    else{
+        Text(text = text)
+    }
 }
 
 

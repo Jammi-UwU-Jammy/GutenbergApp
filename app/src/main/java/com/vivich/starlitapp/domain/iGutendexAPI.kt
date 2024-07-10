@@ -14,12 +14,12 @@ interface iGutendexAPI {
         @Query("page")page: Int
     ): Response<GBookList>
 
-    @GET
-    suspend fun fetchBookHTML(@Url url: String
-    ) : Call<String>
-
-    @GET
-    suspend fun fetchBookPlain(@Url url: String
-    ) : Call<String>
+//    @GET
+//    suspend fun fetchBookHTML(@Url url: String
+//    ) : Call<String>
+//
+//    @GET
+//    suspend fun fetchBookPlain(@Url url: String
+//    ) : Call<String>
 
 }

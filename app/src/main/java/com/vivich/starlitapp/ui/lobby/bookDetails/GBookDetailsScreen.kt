@@ -47,7 +47,8 @@ import com.vivich.starlitapp.ui.theme.contentGraySmall
 @Composable
 fun GBookScreen(
     gBook: GBook,
-    navHostController: NavHostController = rememberNavController()
+    navHostController: NavHostController = rememberNavController(),
+    loadBookAction: () -> Unit = {}
 ){
     val scrollState = rememberScrollState()
 
@@ -61,7 +62,8 @@ fun GBookScreen(
         bottomBar = {
             GBookDetailsBottomBar(
                 bookId = gBook.id,
-                navHostController = navHostController
+                navHostController = navHostController,
+                buttonOnClick = loadBookAction
             )
         },
         content = {

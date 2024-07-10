@@ -33,8 +33,6 @@ class MainActivity : ComponentActivity() {
             StarlitAppTheme {
                 checkAndRequestWriteSettingsPermission(this)
 
-                Log.d("ddd", getBrightness(this).toString())
-
                 val navController = rememberNavController()
                 RootGraph(context = this, navController=navController)
             }

@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.ui.lobby.gutendex
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -186,7 +188,9 @@ private fun BookDetails(
 ) {
     val mod = Modifier.padding(vertical = 2.dp)
     Column(
-        modifier=modifier.padding(horizontal = 10.dp).fillMaxWidth()
+        modifier= modifier
+            .padding(horizontal = 10.dp)
+            .fillMaxWidth()
     ){
         Text( modifier = mod, text = name, style = bookTitleMedium)
         Text(modifier = mod, text = author, style = contentGrayMedium)

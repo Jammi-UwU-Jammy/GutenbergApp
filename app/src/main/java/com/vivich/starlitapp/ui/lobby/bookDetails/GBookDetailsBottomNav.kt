@@ -18,7 +18,8 @@ import com.vivich.starlitapp.BookScreens.Details.withId
 @Composable
 fun GBookDetailsBottomBar(
     bookId: Int,
-    navHostController: NavHostController = rememberNavController()
+    navHostController: NavHostController = rememberNavController(),
+    buttonOnClick: () -> Unit = {}
 ) {
     NavigationBar(
         modifier = Modifier
@@ -30,7 +31,8 @@ fun GBookDetailsBottomBar(
                 .padding(20.dp, 10.dp)
                 .background(Color.Black),
             onClick = {
-                navHostController.navigate(BookScreens.Content.withId("$bookId"))
+                buttonOnClick()
+//                navHostController.navigate(BookScreens.Content.withId("$bookId"))
             },
             icon = { Text(text = "Start Reading", color = Color.White) }
         )

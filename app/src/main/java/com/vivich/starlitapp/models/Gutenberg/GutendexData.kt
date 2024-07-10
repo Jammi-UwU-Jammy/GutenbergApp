@@ -11,13 +11,19 @@ data class GBook(
     val copyright: Boolean = true,
     val formats: GFormats = GFormats()
 ){
-    public fun getAuthorsNames() = authors.joinToString(" | "){ it.name }
-    public fun getLanguages() = languages.joinToString(", ")
+    fun getAuthorsNames() = authors.joinToString(" | "){ it.name }
+    fun getLanguages() = languages.joinToString(", ")
 }
 
 data class GFormats(
     @SerializedName("image/jpeg")
-    val imageUrl: String = ""
+    val imageUrl: String = "",
+
+    @SerializedName("text/html")
+    val html: String = "",
+
+    @SerializedName("text/plain; charset=us-ascii")
+    val plainText: String = ""
 )
 
 data class GAuthor(
