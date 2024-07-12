@@ -34,7 +34,7 @@ fun extractHrefTable(html: String): MutableList<hrefElement> {
 }
 
 fun extractASection(
-    html: String, title: String,
+    html: String, title: String = "",
     sectionId: String
 ): ChapterData {
     val document: Document = Jsoup.parse(html)

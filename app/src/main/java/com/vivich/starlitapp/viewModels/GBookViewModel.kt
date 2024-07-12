@@ -17,6 +17,8 @@ import com.vivich.starlitapp.models.ParsedData.ChapterData
 import com.vivich.starlitapp.models.ParsedData.HrefTable
 import com.vivich.starlitapp.models.ParsedData.extractASection
 import com.vivich.starlitapp.models.ParsedData.extractHrefTable
+import com.vivich.starlitapp.models.ParsedData.hrefElement
+import com.vivich.starlitapp.pagination.ContentPaginationFactory
 import com.vivich.starlitapp.pagination.PaginationFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -113,38 +115,104 @@ class GBookViewModel : ViewModel(){
     }
 }
 
-class GBookLoaderViewModel : ViewModel(){
+class GBookLoaderViewModel(
+    currentBook: GBook
+) : ViewModel(){
     private val repo = Parser()
-    var state by mutableStateOf(BookLoaderState())
+    var state by mutableStateOf(BookLoaderState(currentBookOpened = currentBook))
 
-    private val pagination = PaginationFactory(
+    private val pagination = ContentPaginationFactory(
         initialPage = state.page,
         onLoadUpdated = {
             state = state.copy(
-                isLoading = it
+//                isLoading = it
             )
         },
-        onRequest = { nextPage ->
-            repo.parseHTMLByUrl(nextPage)
+        onRequest = { nextChapterIndex ->
+            val chapterContent = extractASection(
+                html = state.currentParsedBook,
+                sectionId = state.hrefElements[nextChapterIndex].hrefLink
+            )
+            state = state.copy(
+                chapters = state.chapters + chapterContent,
+                page = nextChapterIndex+1,
+                endReached = state.page == 2,
+            )
         },
         getNextKey = {
             state.page + 1
         },
-        onSuccess = {chapters, newChapter ->
-//            chapterContent = extractASection(ch)
+        onSuccess = {_, newChapter ->
             state = state.copy(
-//                chapters = state.chapters + chapters,
                 page = newChapter,
                 endReached = state.page == 2,
             )
         },
         onError = {
             state = state.copy(error = it?.localizedMessage)
-        },
+        }
+    )
 
+    private fun updateCurrentOpenedBook(
+        gBook: GBook = GBook(),
+    ){
+        Log.d("aaa", "Updating current book.")
+
+        fetchContentByUrl(state.currentBookOpened.formats.html)
+
+        val hrefLinks = BookHrefLinks(
+            htmlUrl = state.currentBookOpened.formats.html,
+            hrefList = extractHrefTable(state.currentParsedBook),
         )
+        state = state.copy(
+            currentBookOpened = gBook,
+            myComposable = {
+                HrefTable(
+                    hrefLinks = hrefLinks,
+                    html = state.currentParsedBook
+                )
 
+                ChapterContent(
+                    chapterData = ChapterData(title = state.currentBookOpened.title)
+                )
+            }
+        )
+    }
 
+    private fun fetchContentByUrl(url: String){
+        Log.d("aaa", "Fetching html")
+
+        viewModelScope.launch {
+            try {
+                Log.d("ddd", "PROC: HTML retrieve")
+                val content = repo.parseHTMLByUrl(url).body()
+
+                if (content != null) {
+                    Log.d("ddd", "SUCCESS: \n${extractHrefTable(content)}")
+                    state = state.copy(
+                        currentParsedBook = content
+                    )
+                }
+
+            }catch (e: Exception){
+                Log.d("ddd", "ERROR: HTML retrieve - $e")
+                state = state.copy(
+                    error = e.message
+                )
+            }
+        }
+    }
+
+    init {
+        updateCurrentOpenedBook()
+        loadNextItems()
+    }
+
+    private fun loadNextItems() {
+        viewModelScope.launch {
+            pagination.loadNextPage()
+        }
+    }
 }
 
 data class ScreenState(
@@ -160,12 +228,14 @@ data class ScreenState(
 )
 
 data class BookLoaderState(
+    val hrefElements: List<hrefElement> = emptyList(),
     val chapters: List<ChapterData> = emptyList(),
-    val page:Int = 1,
+
+    val page:Int = 0,
     val endReached: Boolean = false,
     val error: String? = null,
-    val isLoading: Boolean = false,
 
     val currentParsedBook: String = "",
     val currentBookOpened: GBook = GBook(title = "Non-available"),
+    val myComposable: @Composable () -> Unit = {}
 )

@@ -32,16 +32,15 @@ object RetrofitInstance{
 }
 
 class Parser {
-    private val retrofit: iParserClient by lazy {
+    private val parser: iParserClient by lazy {
         Retrofit.Builder()
             .baseUrl("https://dummyurl.com/")
-            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(iParserClient::class.java)
     }
 
     suspend fun parseHTMLByUrl(url: String): Response<String> {
-        return retrofit.fetchBookHTML(url)
+        return parser.fetchBookHTML(url)
     }
 }
 
