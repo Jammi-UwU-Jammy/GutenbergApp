@@ -3,12 +3,17 @@ package com.vivich.starlitapp.ui.lobby.bookContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -16,7 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -37,21 +44,54 @@ fun BookContentScreen(
 ){
     val fontSize = remember {mutableIntStateOf(14) }
     val scrollState = rememberScrollState()
-
+    val tabEnabled = remember { mutableIntStateOf(0) }
+    val text = remember { mutableStateOf("Start Reading")}
 
     Scaffold(
         topBar = { BookContentTop(book =  gBook, onReturn = onReturn)},
         bottomBar = { GBookContentBottomBar(fontSize = fontSize) },
-    ){ paddings->
+    ) { paddings ->
+
         Column(
             modifier = Modifier
                 .padding(paddings)
                 .padding(15.dp)
                 .verticalScroll(scrollState)
-        ){
-            viewModel.state.myComposable()
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .height(50.dp)
+                    .fillMaxWidth()
+            ){
+                IconButton(
+                    enabled = tabEnabled.intValue == 0,
+                    modifier = Modifier.fillMaxWidth(.5f),
+                    onClick = { tabEnabled.intValue = 0 }
+                ) {
+                    Text(text = "Chapters")
+                }
+                IconButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { tabEnabled.intValue = 1 },
+                    enabled = tabEnabled.intValue == 1,
+                ){
+                    Text(text = text.value)
+                }
+            }
+            when(tabEnabled.intValue){
+                0 -> {
+                    viewModel.state.myComposable()
+                }
+                1 -> {
+                    
+                }
+            }
         }
+
     }
+
 }
 
 @Composable

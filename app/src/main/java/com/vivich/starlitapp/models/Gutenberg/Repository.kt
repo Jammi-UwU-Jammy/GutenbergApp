@@ -1,9 +1,9 @@
 package com.vivich.starlitapp.models.Gutenberg
 
 import com.vivich.starlitapp.domain.iGutendexAPI
+import com.vivich.starlitapp.domain.iParserClient
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,10 +29,24 @@ object RetrofitInstance{
             null
         }
     }
-
 }
 
-class Repository {
+class Parser {
+    private val retrofit: iParserClient by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://dummyurl.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(iParserClient::class.java)
+    }
+
+    suspend fun parseHTMLByUrl(url: String): Response<String> {
+        return retrofit.fetchBookHTML(url)
+    }
+}
+
+class Repository{
+
     suspend fun getPopularBooks(page: Int): Response<GBookList>{
         return RetrofitInstance.api.getBooks(page)
     }
@@ -40,4 +54,7 @@ class Repository {
     suspend fun getBookContentByUrl(url: String): String? {
         return RetrofitInstance.fetchScrapedContent(url)
     }
+
 }
+
+

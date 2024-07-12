@@ -9,11 +9,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vivich.starlitapp.models.Gutenberg.GBook
+import com.vivich.starlitapp.models.Gutenberg.Parser
 import com.vivich.starlitapp.models.Gutenberg.Repository
 import com.vivich.starlitapp.models.ParsedData.BookHrefLinks
 import com.vivich.starlitapp.models.ParsedData.ChapterContent
 import com.vivich.starlitapp.models.ParsedData.ChapterData
 import com.vivich.starlitapp.models.ParsedData.HrefTable
+import com.vivich.starlitapp.models.ParsedData.extractASection
 import com.vivich.starlitapp.models.ParsedData.extractHrefTable
 import com.vivich.starlitapp.pagination.PaginationFactory
 import kotlinx.coroutines.Dispatchers
@@ -64,40 +66,19 @@ class GBookViewModel : ViewModel(){
         }
     }
 
-    private val contentPagination = PaginationFactory(
-        initialPage = state.page,
-        onLoadUpdated = {
-            state = state.copy(
-                isLoading = it
-            )
-        },
-        onRequest = { nextPage ->
-            repo.getPopularBooks(nextPage)
-        },
-        getNextKey = {
-            state.page + 1
-        },
-        onSuccess = {items, newPage ->
-            state = state.copy(
-                gBooks = state.gBooks + items.data,
-                page = newPage,
-                endReached = state.page == 2,
-            )
-        },
-        onError = {
-            state = state.copy(error = it?.localizedMessage)
-        },
-    )
-
-    fun updateCurrentOpenedBook(bookIndex: Int){
+    fun updateCurrentOpenedBook(
+        bookIndex: Int,
+    ){
+        val hrefLinks = BookHrefLinks(
+            htmlUrl = state.currentBookOpened.formats.html,
+            hrefList = extractHrefTable(state.currentParsedBook),
+        )
         state = state.copy(
             currentBookOpened = state.gBooks[bookIndex],
             myComposable = {
                 HrefTable(
-                    hrefLinks = BookHrefLinks(
-                        htmlUrl = state.currentBookOpened.formats.html,
-                        hrefList = extractHrefTable(state.currentParsedBook)
-                    )
+                    hrefLinks = hrefLinks,
+                    html = state.currentParsedBook
                 )
 
                 ChapterContent(
@@ -106,6 +87,7 @@ class GBookViewModel : ViewModel(){
             }
         )
     }
+
 
     fun fetchContentByUrl(url: String){
         viewModelScope.launch {
@@ -131,6 +113,40 @@ class GBookViewModel : ViewModel(){
     }
 }
 
+class GBookLoaderViewModel : ViewModel(){
+    private val repo = Parser()
+    var state by mutableStateOf(BookLoaderState())
+
+    private val pagination = PaginationFactory(
+        initialPage = state.page,
+        onLoadUpdated = {
+            state = state.copy(
+                isLoading = it
+            )
+        },
+        onRequest = { nextPage ->
+            repo.parseHTMLByUrl(nextPage)
+        },
+        getNextKey = {
+            state.page + 1
+        },
+        onSuccess = {chapters, newChapter ->
+//            chapterContent = extractASection(ch)
+            state = state.copy(
+//                chapters = state.chapters + chapters,
+                page = newChapter,
+                endReached = state.page == 2,
+            )
+        },
+        onError = {
+            state = state.copy(error = it?.localizedMessage)
+        },
+
+        )
+
+
+}
+
 data class ScreenState(
     val gBooks: List<GBook> = emptyList(),
     val page:Int = 1,
@@ -141,4 +157,15 @@ data class ScreenState(
     val currentBookOpened: GBook = GBook(title = "Non-available"),
     val currentParsedBook: String = "",
     val myComposable: @Composable () -> Unit = {}
+)
+
+data class BookLoaderState(
+    val chapters: List<ChapterData> = emptyList(),
+    val page:Int = 1,
+    val endReached: Boolean = false,
+    val error: String? = null,
+    val isLoading: Boolean = false,
+
+    val currentParsedBook: String = "",
+    val currentBookOpened: GBook = GBook(title = "Non-available"),
 )
