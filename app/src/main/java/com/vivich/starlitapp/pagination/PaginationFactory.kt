@@ -54,13 +54,14 @@ class ContentPaginationFactory<Key, Item>(
     private var currentKey = initialPage
 
     override suspend fun loadNextPage() {
-//        if (isMakingRequest){
-//            return
-//        }
-//        isMakingRequest = true
+        if (isMakingRequest){
+            return
+        }
+        isMakingRequest = true
         onLoadUpdated(true)
         try{
             val response = onRequest(currentKey)
+            isMakingRequest = false
             currentKey = getNextKey(response)
             onSuccess(response, currentKey)
             onLoadUpdated(false)

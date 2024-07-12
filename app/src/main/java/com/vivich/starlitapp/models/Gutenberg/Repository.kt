@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.models.Gutenberg
 
+import android.util.Log
 import com.vivich.starlitapp.domain.iGutendexAPI
 import com.vivich.starlitapp.domain.iParserClient
 import okhttp3.OkHttpClient
@@ -7,6 +8,7 @@ import okhttp3.Request
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitInstance{
     val baseUrl = "https://gutendex.com/"
@@ -33,14 +35,21 @@ object RetrofitInstance{
 
 class Parser {
     private val parser: iParserClient by lazy {
+        val okHttpClient = OkHttpClient.Builder()
+            .build()
+
         Retrofit.Builder()
             .baseUrl("https://dummyurl.com/")
+            .client(okHttpClient)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .build()
             .create(iParserClient::class.java)
     }
 
     suspend fun parseHTMLByUrl(url: String): Response<String> {
-        return parser.fetchBookHTML(url)
+        val result = parser.fetchBookHTML(url)
+
+        return result
     }
 }
 

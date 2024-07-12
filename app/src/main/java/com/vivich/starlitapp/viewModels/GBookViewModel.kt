@@ -125,7 +125,7 @@ class GBookLoaderViewModel(
         initialPage = state.page,
         onLoadUpdated = {
             state = state.copy(
-//                isLoading = it
+                isLoading = it
             )
         },
         onRequest = { nextChapterIndex ->
@@ -136,16 +136,17 @@ class GBookLoaderViewModel(
             state = state.copy(
                 chapters = state.chapters + chapterContent,
                 page = nextChapterIndex+1,
-                endReached = state.page == 2,
             )
+
         },
         getNextKey = {
             state.page + 1
+
         },
         onSuccess = {_, newChapter ->
             state = state.copy(
                 page = newChapter,
-                endReached = state.page == 2,
+                endReached = state.page == 100,
             )
         },
         onError = {
@@ -153,35 +154,28 @@ class GBookLoaderViewModel(
         }
     )
 
-    private fun updateCurrentOpenedBook(
-        gBook: GBook = GBook(),
-    ){
-        Log.d("aaa", "Updating current book.")
-
+    private fun updateCurrentOpenedBook(){
         fetchContentByUrl(state.currentBookOpened.formats.html)
 
-        val hrefLinks = BookHrefLinks(
-            htmlUrl = state.currentBookOpened.formats.html,
-            hrefList = extractHrefTable(state.currentParsedBook),
-        )
-        state = state.copy(
-            currentBookOpened = gBook,
-            myComposable = {
-                HrefTable(
-                    hrefLinks = hrefLinks,
-                    html = state.currentParsedBook
-                )
-
-                ChapterContent(
-                    chapterData = ChapterData(title = state.currentBookOpened.title)
-                )
-            }
-        )
+//        val hrefLinks = BookHrefLinks(
+//            htmlUrl = state.currentBookOpened.formats.html,
+//            hrefList = extractHrefTable(state.currentParsedBook),
+//        )
+//        state = state.copy(
+//            myComposable = {
+//                HrefTable(
+//                    hrefLinks = hrefLinks,
+//                    html = state.currentParsedBook
+//                )
+//
+//                ChapterContent(
+//                    chapterData = ChapterData(title = state.currentBookOpened.title)
+//                )
+//            }
+//        )
     }
 
     private fun fetchContentByUrl(url: String){
-        Log.d("aaa", "Fetching html")
-
         viewModelScope.launch {
             try {
                 Log.d("ddd", "PROC: HTML retrieve")
@@ -200,6 +194,22 @@ class GBookLoaderViewModel(
                     error = e.message
                 )
             }
+            val hrefLinks = BookHrefLinks(
+                htmlUrl = state.currentBookOpened.formats.html,
+                hrefList = extractHrefTable(state.currentParsedBook),
+            )
+            state = state.copy(
+                myComposable = {
+                    HrefTable(
+                        hrefLinks = hrefLinks,
+                        html = state.currentParsedBook
+                    )
+
+                    ChapterContent(
+                        chapterData = ChapterData(title = state.currentBookOpened.title)
+                    )
+                }
+            )
         }
     }
 
@@ -211,6 +221,7 @@ class GBookLoaderViewModel(
     private fun loadNextItems() {
         viewModelScope.launch {
             pagination.loadNextPage()
+
         }
     }
 }
@@ -234,6 +245,7 @@ data class BookLoaderState(
     val page:Int = 0,
     val endReached: Boolean = false,
     val error: String? = null,
+    val isLoading: Boolean = false,
 
     val currentParsedBook: String = "",
     val currentBookOpened: GBook = GBook(title = "Non-available"),
