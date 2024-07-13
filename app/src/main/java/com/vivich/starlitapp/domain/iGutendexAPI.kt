@@ -1,8 +1,6 @@
 package com.vivich.starlitapp.domain
 
-import com.vivich.starlitapp.models.Gutenberg.GBook
 import com.vivich.starlitapp.models.Gutenberg.GBookList
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,7 +14,7 @@ interface iGutendexAPI {
 
 }
 
-interface iParserClient{
+interface IParserSerivce{
     @GET
     suspend fun fetchBookHTML(@Url url: String
     ) : Response<String>

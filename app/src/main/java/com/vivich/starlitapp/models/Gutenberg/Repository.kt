@@ -1,15 +1,13 @@
 package com.vivich.starlitapp.models.Gutenberg
 
-import android.util.Log
 import com.vivich.starlitapp.domain.iGutendexAPI
-import com.vivich.starlitapp.domain.iParserClient
+import com.vivich.starlitapp.domain.IParserSerivce
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.util.concurrent.TimeUnit
 
 object RetrofitInstance{
     val baseUrl = "https://gutendex.com/"
@@ -35,18 +33,29 @@ object RetrofitInstance{
 }
 
 class Parser {
-    private val parser: iParserClient by lazy {
-        val okHttpClient = OkHttpClient.Builder()
-            .build()
-
+    private val parser: IParserSerivce by lazy {
         Retrofit.Builder()
-            .baseUrl("https://dummyurl.com/")
-            .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
+            .baseUrl("https://dummyurl.com/")
             .build()
-            .create(iParserClient::class.java)
+            .create(IParserSerivce::class.java)
     }
 
+    suspend fun parseHTMLByUrl(url: String): Response<String> {
+        val result = parser.fetchBookHTML(url)
+
+        return result
+    }
+}
+
+object ParserProvider{
+    private val parser: IParserSerivce by lazy {
+        Retrofit.Builder()
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .baseUrl("https://dummyurl.com/")
+            .build()
+            .create(IParserSerivce::class.java)
+    }
     suspend fun parseHTMLByUrl(url: String): Response<String> {
         val result = parser.fetchBookHTML(url)
 

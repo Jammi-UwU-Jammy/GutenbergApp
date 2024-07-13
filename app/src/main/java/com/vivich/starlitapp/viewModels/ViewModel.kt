@@ -27,7 +27,6 @@ import kotlinx.coroutines.withContext
 
 class GBookViewModel : ViewModel(){
     private val repo = Repository()
-//    private val
 
     var state by mutableStateOf(ScreenState())
     var id by mutableIntStateOf(0)
