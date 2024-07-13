@@ -84,7 +84,7 @@ fun BookContentScreen(
             }
             when(tabEnabled.intValue){
                 0 -> {
-                    testModel.state.myComposable()
+                    viewModel.state.myComposable()
                 }
                 1 -> {
                     

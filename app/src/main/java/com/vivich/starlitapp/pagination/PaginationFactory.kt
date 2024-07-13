@@ -45,7 +45,7 @@ class PaginationFactory<Key, Item>(
 class ContentPaginationFactory<Key, Item>(
     private val initialPage: Key,
     private inline val onLoadUpdated: (Boolean) -> Unit,
-    private inline val onRequest:suspend (nextPage: Key)-> Item,
+    private inline val onRequest: (nextPage: Key)-> Item,
     private inline val getNextKey:suspend (Item)-> Key,
     private inline val onError:suspend (Throwable?)-> Unit,
     private inline val onSuccess:suspend (items: Item, newPage: Key)-> Unit,

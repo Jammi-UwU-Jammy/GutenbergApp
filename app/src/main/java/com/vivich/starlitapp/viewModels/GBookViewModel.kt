@@ -215,13 +215,14 @@ class GBookLoaderViewModel(
 
     init {
         updateCurrentOpenedBook()
-        loadNextItems()
+        if (state.currentParsedBook == ""){
+            loadNextItems()
+        }
     }
 
     private fun loadNextItems() {
         viewModelScope.launch {
             pagination.loadNextPage()
-
         }
     }
 }
