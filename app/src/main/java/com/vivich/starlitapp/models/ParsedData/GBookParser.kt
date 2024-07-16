@@ -21,9 +21,7 @@ import org.jsoup.nodes.Element
 
 fun extractHrefTable(html: String): MutableList<hrefElement> {
     val document: Document = Jsoup.parse(html)
-//    val table = document.selectFirst("table.autotable")
-//
-//    val tbody: Element? = table?.selectFirst("tbody")
+
     val hrefList = mutableListOf<hrefElement>()
     document.select("a.pginternal")?.forEach { element ->
         hrefList.add(

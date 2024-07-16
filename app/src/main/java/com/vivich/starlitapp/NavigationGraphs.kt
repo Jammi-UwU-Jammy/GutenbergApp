@@ -19,6 +19,7 @@ import com.vivich.starlitapp.ui.lobby.gutendex.GutendexMainBody
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexScreen
 import com.vivich.starlitapp.viewModels.GBookLoaderViewModel
 import com.vivich.starlitapp.viewModels.GBookViewModel
+import com.vivich.starlitapp.viewModels.GContentViewModel
 
 
 @Composable
@@ -113,10 +114,14 @@ fun LobbyNavGraph(
             val contentViewModel = GBookLoaderViewModel(
                 currentBook = bookViewModel.state.currentBookOpened
             )
+            val simpleModel = GContentViewModel(
+                currentBookOpened = bookViewModel.state.currentBookOpened
+            )
 
             BookContentScreen(
                 viewModel = bookViewModel,
                 testModel = contentViewModel,
+                simpleModel = simpleModel,
                 gBook = bookViewModel.state.currentBookOpened,
                 onReturn = {navController.popBackStack()}
             )

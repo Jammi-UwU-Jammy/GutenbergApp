@@ -32,14 +32,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vivich.starlitapp.R
 import com.vivich.starlitapp.models.Gutenberg.GBook
+import com.vivich.starlitapp.models.ParsedData.ChapterContent
+import com.vivich.starlitapp.models.ParsedData.ChapterData
+import com.vivich.starlitapp.models.ParsedData.HrefTable
 import com.vivich.starlitapp.ui.theme.bookContent
 import com.vivich.starlitapp.viewModels.GBookLoaderViewModel
 import com.vivich.starlitapp.viewModels.GBookViewModel
+import com.vivich.starlitapp.viewModels.GContentViewModel
+import com.vivich.starlitapp.viewModels.RequestUiState
 
 @Composable
 fun BookContentScreen(
     modifier: Modifier = Modifier,
     testModel: GBookLoaderViewModel,
+    simpleModel: GContentViewModel,
     viewModel: GBookViewModel,
     gBook: GBook = GBook(),
     onReturn: () -> Unit = {}
@@ -84,7 +90,10 @@ fun BookContentScreen(
             }
             when(tabEnabled.intValue){
                 0 -> {
-                    viewModel.state.myComposable()
+//                    viewModel.state.myComposable()
+                    if (simpleModel.state is RequestUiState.Success){
+                        simpleModel.GetChaptersComposable()
+                    }
                 }
                 1 -> {
                     
@@ -113,6 +122,7 @@ private fun ScreenPreview(modifier: Modifier = Modifier) {
         viewModel = GBookViewModel(),
         testModel = GBookLoaderViewModel(
             currentBook = GBook(title = "Preview Test Book")
-        )
+        ),
+        simpleModel = GContentViewModel(GBook())
     )
 }
