@@ -17,9 +17,9 @@ import com.vivich.starlitapp.ui.lobby.bookContent.BookContentScreen
 import com.vivich.starlitapp.ui.lobby.bookDetails.GBookScreen
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexMainBody
 import com.vivich.starlitapp.ui.lobby.gutendex.GutendexScreen
-import com.vivich.starlitapp.viewModels.GBookLoaderViewModel
 import com.vivich.starlitapp.viewModels.GBookViewModel
 import com.vivich.starlitapp.viewModels.GContentViewModel
+import com.vivich.starlitapp.viewModels.GContentViewModelFactory
 
 
 @Composable
@@ -103,7 +103,6 @@ fun LobbyNavGraph(
                 gBook = bookViewModel.state.gBooks[bookIndex],
                 navHostController=navController,
                 loadBookAction = {
-                    bookViewModel.fetchContentByUrl(bookViewModel.state.gBooks[bookIndex].formats.html)
                     bookViewModel.updateCurrentOpenedBook(bookIndex)
                 }
             )
@@ -111,16 +110,11 @@ fun LobbyNavGraph(
         composable(route=BookScreens.Content.route){ backStackEntry ->
 //            val bookId = backStackEntry.arguments?.getString("bookId")?.toIntOrNull() ?: 0
 //            Log.d("ddd", "ID $bookId")
-            val contentViewModel = GBookLoaderViewModel(
-                currentBook = bookViewModel.state.currentBookOpened
-            )
-            val simpleModel = GContentViewModel(
-                currentBookOpened = bookViewModel.state.currentBookOpened
-            )
+            val simpleModel: GContentViewModel = viewModel(factory = GContentViewModelFactory(bookViewModel.state.currentBookOpened))
+
 
             BookContentScreen(
                 viewModel = bookViewModel,
-                testModel = contentViewModel,
                 simpleModel = simpleModel,
                 gBook = bookViewModel.state.currentBookOpened,
                 onReturn = {navController.popBackStack()}

@@ -58,7 +58,6 @@ object ParserProvider{
     }
     suspend fun parseHTMLByUrl(url: String): Response<String> {
         val result = parser.fetchBookHTML(url)
-
         return result
     }
 }

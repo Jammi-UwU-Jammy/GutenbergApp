@@ -37,7 +37,7 @@ class GContentViewModel(
         private set
 
     init{
-        Log.d("ccc", "Initiated")
+        Log.d("ddd", "Initiated")
         this.fetchHtmlContent(currentBookOpened.formats.html)
     }
 
@@ -63,15 +63,13 @@ class GContentViewModel(
     @Composable
     fun GetChaptersComposable(){
 
-        Text(text = "Chapters")
-
-//        HrefTable(
-//            hrefLinks = BookHrefLinks(htmlUrl = currentBookOpened.formats.html, hrefList = hrefElements),
-//            html = currentParsedBook
-//        )
-//        ChapterContent(
-//            chapterData = ChapterData(title = currentBookOpened.title)
-//        )
+        HrefTable(
+            hrefLinks = BookHrefLinks(htmlUrl = currentBookOpened.formats.html, hrefList = hrefElements),
+            html = currentParsedBook
+        )
+        ChapterContent(
+            chapterData = ChapterData(title = currentBookOpened.title)
+        )
     }
 
 }
@@ -80,4 +78,17 @@ sealed interface RequestUiState{
     data class Success(val htmlString: String) : RequestUiState
     data class Error (val errorString: String) : RequestUiState
     object Loading : RequestUiState
+}
+
+class GContentViewModelFactory(
+    private val currentBookOpened: GBook,
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(GContentViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return GContentViewModel(currentBookOpened) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }
