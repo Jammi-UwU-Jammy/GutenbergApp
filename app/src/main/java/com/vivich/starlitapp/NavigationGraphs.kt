@@ -114,7 +114,6 @@ fun LobbyNavGraph(
 
 
             BookContentScreen(
-                viewModel = bookViewModel,
                 simpleModel = simpleModel,
                 gBook = bookViewModel.state.currentBookOpened,
                 onReturn = {navController.popBackStack()}

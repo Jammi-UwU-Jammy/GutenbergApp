@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.ui.lobby.bookContent
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -14,6 +15,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -42,7 +46,6 @@ import com.vivich.starlitapp.viewModels.RequestUiState
 fun BookContentScreen(
     modifier: Modifier = Modifier,
     simpleModel: GContentViewModel,
-    viewModel: GBookViewModel,
     gBook: GBook = GBook(),
     onReturn: () -> Unit = {}
 ){
@@ -55,44 +58,39 @@ fun BookContentScreen(
         topBar = { BookContentTop(book =  gBook, onReturn = onReturn)},
         bottomBar = { GBookContentBottomBar(fontSize = fontSize) },
     ) { paddings ->
-
         Column(
             modifier = Modifier
                 .padding(paddings)
-                .padding(15.dp)
                 .verticalScroll(scrollState)
         ) {
             Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .height(50.dp)
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ){
-                IconButton(
-                    enabled = tabEnabled.intValue == 0,
-                    modifier = Modifier.fillMaxWidth(.5f),
-                    onClick = { tabEnabled.intValue = 0 }
-                ) {
-                    Text(text = "Chapters")
-                }
-                IconButton(
-                    modifier = Modifier.fillMaxWidth(),
+                NavigationBarItem(
+                    selected = tabEnabled.intValue == 0,
+                    onClick = { tabEnabled.intValue = 0 },
+                    icon = {
+                        Text(text = "Chapters")
+                    }
+                )
+                NavigationBarItem(
+                    selected = tabEnabled.intValue == 1,
                     onClick = { tabEnabled.intValue = 1 },
-                    enabled = tabEnabled.intValue == 1,
-                ){
-                    Text(text = text.value)
-                }
+                    icon = {
+                        Text(text = text.value)
+                    }
+                )
             }
             when(tabEnabled.intValue){
                 0 -> {
-//                    viewModel.state.myComposable()
                     if (simpleModel.state is RequestUiState.Success){
                         simpleModel.GetChaptersComposable()
+                    }else{
+                        simpleModel.GetLoadingComposable()
                     }
                 }
                 1 -> {
-                    
+                    Text(text = "Content")
                 }
             }
         }
@@ -115,7 +113,6 @@ private fun BookText(
 @Composable
 private fun ScreenPreview(modifier: Modifier = Modifier) {
     BookContentScreen(
-        viewModel = GBookViewModel(),
         simpleModel = GContentViewModel(GBook())
     )
 }
