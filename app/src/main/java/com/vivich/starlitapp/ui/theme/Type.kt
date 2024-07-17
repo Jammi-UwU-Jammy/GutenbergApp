@@ -41,7 +41,7 @@ val contentGraySmall = TextStyle(
     fontFamily = Inter,
     fontWeight = FontWeight.Normal,
     fontSize = 13.sp,
-    lineHeight = 9.sp,
+    lineHeight = 15.sp,
     letterSpacing = 0.4.sp,
     color = Color.Gray
 )

@@ -52,45 +52,58 @@ fun BookContentScreen(
     val fontSize = remember {mutableIntStateOf(14) }
     val scrollState = rememberScrollState()
     val tabEnabled = remember { mutableIntStateOf(0) }
-    val text = remember { mutableStateOf("Start Reading")}
+    var currentLoadedChapter = remember { mutableIntStateOf(0)}
 
     Scaffold(
-        topBar = { BookContentTop(book =  gBook, onReturn = onReturn)},
+        topBar = {
+            BookContentTop(book =  gBook, onReturn = onReturn){
+                Row(
+                    modifier = Modifier.fillMaxWidth().height(50.dp)
+                ){
+                    NavigationBarItem(
+                        selected = tabEnabled.intValue == 0,
+                        onClick = { tabEnabled.intValue = 0 },
+                        icon = {
+                            Text(text = "Chapters")
+                        }
+                    )
+                    NavigationBarItem(
+                        selected = tabEnabled.intValue == 1,
+                        onClick = { tabEnabled.intValue = 1 },
+                        icon = {
+                            Text(text = "Start Reading")
+                        }
+                    )
+                }
+            }
+        },
         bottomBar = { GBookContentBottomBar(fontSize = fontSize) },
     ) { paddings ->
         Column(
             modifier = Modifier
                 .padding(paddings)
+                .padding(horizontal = 15.dp )
                 .verticalScroll(scrollState)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ){
-                NavigationBarItem(
-                    selected = tabEnabled.intValue == 0,
-                    onClick = { tabEnabled.intValue = 0 },
-                    icon = {
-                        Text(text = "Chapters")
-                    }
-                )
-                NavigationBarItem(
-                    selected = tabEnabled.intValue == 1,
-                    onClick = { tabEnabled.intValue = 1 },
-                    icon = {
-                        Text(text = text.value)
-                    }
-                )
-            }
+
             when(tabEnabled.intValue){
                 0 -> {
                     if (simpleModel.state is RequestUiState.Success){
-                        simpleModel.GetChaptersComposable()
+                        simpleModel.GetChaptersComposable(
+                            chapterClicked = currentLoadedChapter,
+                            onChapterClicked = {
+                                tabEnabled.intValue = 1
+                            }
+                        )
                     }else{
                         simpleModel.GetLoadingComposable()
                     }
                 }
                 1 -> {
-                    Text(text = "Content")
+                    simpleModel.GetContentComposable(
+                        chapterIndex = currentLoadedChapter.intValue,
+                        textSize = fontSize
+                    )
                 }
             }
         }

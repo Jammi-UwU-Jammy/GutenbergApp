@@ -3,7 +3,8 @@ package com.vivich.starlitapp.models.ParsedData
 
 data class hrefElement(
     val title: String,
-    val hrefLink: String
+    val hrefLink: String,
+    val isActive: Boolean = false
 )
 
 data class BookHrefLinks(

@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -34,16 +35,17 @@ fun GBookContentBottomBar(
     var brightness = remember { mutableFloatStateOf(.5f)}
 
     Column {
-//        Spacer(modifier = Modifier.weight(1f))
         if (selectedItem != -1) {
             when (selectedItem){
                 0 -> {
-                    Brightness()
+                    Brightness(brightness)
                 }
                 1 -> {
                     FontSettings(fontSize=fontSize)
                 }
-                2 -> {Text(text = "Settings for Settings", fontSize = 18.sp)}
+                2 -> {
+                    Text(text = "Add more settings here", fontSize = 18.sp)
+                }
             }
         }
 
@@ -64,7 +66,6 @@ fun GBookContentBottomBar(
                 icon = { Icon(painter = painterResource(id = R.drawable.construction_24dp_fill0_wght400_grad0_opsz24), contentDescription = "") }
             )
 
-
         }
     }
 }
@@ -72,8 +73,8 @@ fun GBookContentBottomBar(
 
 @Composable
 private fun Brightness(
+    sliderValue: MutableFloatState
 ){
-    var sliderValue by remember { mutableFloatStateOf(.5f) }
     val context = LocalContext.current
 
     Column(
@@ -83,10 +84,10 @@ private fun Brightness(
         Text(text = "Brightness", fontSize = 18.sp)
         Slider(
             modifier = Modifier.fillMaxWidth(.7f),
-            value = sliderValue,
+            value = sliderValue.floatValue,
             onValueChange = {
-                sliderValue = it
-                setBrightness(context, sliderValue)
+                sliderValue.floatValue = it
+                setBrightness(context, sliderValue.floatValue)
             },
             valueRange = 0f..1f,
         )

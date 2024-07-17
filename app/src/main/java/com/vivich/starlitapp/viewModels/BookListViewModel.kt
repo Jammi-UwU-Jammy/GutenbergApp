@@ -1,6 +1,5 @@
 package com.vivich.starlitapp.viewModels
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -9,20 +8,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vivich.starlitapp.models.Gutenberg.GBook
-import com.vivich.starlitapp.models.Gutenberg.Parser
 import com.vivich.starlitapp.models.Gutenberg.Repository
-import com.vivich.starlitapp.models.ParsedData.BookHrefLinks
-import com.vivich.starlitapp.models.ParsedData.ChapterContent
-import com.vivich.starlitapp.models.ParsedData.ChapterData
-import com.vivich.starlitapp.models.ParsedData.HrefTable
-import com.vivich.starlitapp.models.ParsedData.extractASection
-import com.vivich.starlitapp.models.ParsedData.extractHrefTable
-import com.vivich.starlitapp.models.ParsedData.hrefElement
-import com.vivich.starlitapp.pagination.ContentPaginationFactory
 import com.vivich.starlitapp.pagination.PaginationFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class GBookViewModel : ViewModel(){

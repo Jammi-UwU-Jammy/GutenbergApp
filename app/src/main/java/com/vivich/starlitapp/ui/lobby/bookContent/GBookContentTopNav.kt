@@ -1,5 +1,6 @@
 package com.vivich.starlitapp.ui.lobby.bookContent
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -23,30 +24,34 @@ import com.vivich.starlitapp.ui.theme.contentGraySmall
 fun BookContentTop(
     modifier: Modifier = Modifier,
     book: GBook = GBook(title = "Test"),
-    onReturn : () -> Unit =  {}
+    onReturn : () -> Unit =  {},
+    content: @Composable () -> Unit = {}
 ){
-    TopAppBar(
-        navigationIcon = {
-            IconButton(onClick = onReturn) {
-                Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription ="")
+    Column {
+        TopAppBar(
+            navigationIcon = {
+                IconButton(onClick = onReturn) {
+                    Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription ="")
+                }
+            },
+            title = {
+                Text(
+                    modifier = modifier
+                        .fillMaxWidth(1f)
+                        .padding(horizontal = 10.dp),
+                    text = book.title,
+                    style = contentGraySmall,
+                    textAlign = TextAlign.Center
+                )
+            },
+            actions = {
+                IconButton(onClick = {  }) {
+                    Icon(imageVector = Icons.Default.Share, contentDescription ="")
+                }
             }
-        },
-        title = {
-            Text(
-                modifier = modifier
-                    .fillMaxWidth(1f)
-                    .padding(horizontal = 10.dp),
-                text = book.title,
-                style = contentGraySmall,
-                textAlign = TextAlign.Center
-            )
-        },
-        actions = {
-            IconButton(onClick = {  }) {
-                Icon(imageVector = Icons.Default.Share, contentDescription ="")
-            }
-        }
-    )
+        )
+        content()
+    }
 }
 
 @Preview
