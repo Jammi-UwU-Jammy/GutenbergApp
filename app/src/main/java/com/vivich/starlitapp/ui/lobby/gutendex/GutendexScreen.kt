@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -140,7 +141,8 @@ private fun GBookItem(
             BookDetails(
                 modifier = Modifier.weight(1f),
                 name = gBookItem.title,
-                author = authors
+                author = authors,
+                bookId = gBookItem.id
             )
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "")
@@ -154,14 +156,18 @@ private fun GBookItem(
 private fun GutendexHeadline() {
     Column(
         modifier = Modifier.padding(vertical = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ){
         Text(
+
             text = "Gutenberg",
             style = MaterialTheme.typography.headlineLarge
         )
+
         Text(
-            text = "Collection of most popular books by Project Gutenberg.",
+            modifier = Modifier.padding(horizontal = 20.dp),
+            textAlign = TextAlign.Center,
+            text = "A collection of the most popular books by Project Gutenberg.",
             style = MaterialTheme.typography.labelMedium
         )
     }
@@ -184,7 +190,8 @@ private fun ReadButton(
 private fun BookDetails(
     modifier: Modifier = Modifier,
     name: String = "",
-    author: String = ""
+    author: String = "",
+    bookId: Int = 0,
 ) {
     val mod = Modifier.padding(vertical = 2.dp)
     Column(
@@ -195,17 +202,21 @@ private fun BookDetails(
         Text( modifier = mod, text = name, style = bookTitleMedium)
         Text(modifier = mod, text = author, style = contentGrayMedium)
         Spacer(modifier = mod.height(10.dp))
-        Text(modifier = mod, text = "Gutenberg ID: 123", style = bookIDSmall)
+        Text(
+            modifier = mod,
+            text = "Gutenberg ID: $bookId",
+            style = bookIDSmall
+        )
     }
 }
 
 @Preview
 @Composable
 private fun GutendexScreenPreview() {
-//    GutendexHeadline()
+    GutendexHeadline()
     val mockBooks = listOf(GBook(
         title = "Reading is a very good habit that one needs to develop in life",
         authors = listOf(GAuthor(name = "Mock author, Mock author, Mock author")))
     )
-    GBookItem(gBookItem = mockBooks[0])
+//    GBookItem(gBookItem = mockBooks[0])
 }

@@ -114,7 +114,7 @@ private fun TopSection() {
             Spacer(modifier = Modifier.width(15.dp))
             Column {
                 Text(
-                    text = "Starlit",
+                    text = "Reading App",
                     style = MaterialTheme.typography.headlineMedium,
                     color = uiColor
                 )
